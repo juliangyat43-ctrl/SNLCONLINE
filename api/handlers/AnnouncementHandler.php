@@ -15,7 +15,7 @@ class AnnouncementHandler {
 
     public function getAnnouncements(): void {
         $stmt = $this->pdo->query(
-            "SELECT * FROM announcements ORDER BY created_at DESC LIMIT 20"
+            "SELECT * FROM announcements ORDER BY created_at DESC LIMIT 100"
         );
         Response::success('', $stmt->fetchAll());
     }

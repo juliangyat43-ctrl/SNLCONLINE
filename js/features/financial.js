@@ -111,7 +111,7 @@ async function saveGlobalFees() {
         const data = await res.json();
         if (data.success) {
             showToast('Global fees updated successfully', 'success');
-            loadAdminData(); // refresh student financial cards
+            typeof loadAdminData === 'function'  && loadAdminData(); // refresh student financial cards
         } else {
             showToast(data.error || data.message || 'Failed to update fees', 'error');
         }
@@ -164,7 +164,7 @@ async function saveFinancialPlan() {
         if (result.success) {
             showToast('Plan updated!', 'success');
             closeModal('finPlanModal');
-            loadAdminData();
+            typeof loadAdminData === 'function'  && loadAdminData();
         }
         else {
             showToast(result.error || 'Failed to update plan', 'error');
@@ -262,10 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     await resolveApiBase(endpoints);
                     showToast('Cannot reach server to verify session. Continuing in offline mode.', 'error');
                     completeLogin();
-                    if (currentRole === 'student')
+                    if (currentRole === 'student' && typeof loadStudentData === 'function')
                         loadStudentData();
                     else
-                        loadAdminData();
+                        typeof loadAdminData === 'function'  && loadAdminData();
                     return;
                 }
             }
@@ -316,10 +316,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 completeLogin();
-                if (currentRole === 'student')
+                if (currentRole === 'student' && typeof loadStudentData === 'function')
                     loadStudentData();
                 else
-                    loadAdminData();
+                    typeof loadAdminData === 'function'  && loadAdminData();
             }
             catch (e) {
                 console.error('Session restore failed:', e);

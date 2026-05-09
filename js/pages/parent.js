@@ -337,12 +337,6 @@ function exportStudentAttendanceCSV() {
 // escHtml, getTodayStr, getDayName, toNumber, formatCurrency, downloadCSV
 // are defined in js/core/data.js and available on all pages.
 
-function getInitials(name) {
-    if (!name) return '?';
-    const parts = name.split(' ');
-    if (parts.length > 1) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    return name.substring(0, 2).toUpperCase();
-}
 
 /**
  * Updates the #navAvatar element in the parent portal topbar to show the
