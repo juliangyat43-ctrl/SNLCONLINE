@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNLC Portal – St. Nazareth Learning Center</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css?v=5.1">
+  <link rel="icon" type="image/png" href="SNLCLogo.png">
+</head>
+
+<body>
+
+  <div id="landingPage" class="landing-page">
+
+    <!-- NAV -->
+    <nav class="lp-nav">
+      <div class="lp-brand">
+        <div class="lp-brand-icon">
+          <img src="SNLCLogo.png" alt="SNLC Logo" style="width: 28px; height: 28px; object-fit: contain;">
+        </div>
+        <span>St. Nazareth Learning Center</span>
+      </div>
+      <div class="lp-nav-links">
+        <a href="#about-section">About</a>
+        <a href="#programs-section">Programs</a>
+        <a href="#history-section">History</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="lp-hero">
+      <div class="lp-hero-backdrop"></div>
+      <div class="lp-hero-content">
+        <div style="margin-bottom: 24px;">
+          <img src="SNLCLogo.png" alt="SNLC Main Logo" style="width: 160px; height: 160px; object-fit: contain;">
+        </div>
+        <div class="lp-badge">School Year 2026–2027 &mdash; Enrollment Now Open</div>
+        <h1 class="lp-title">Shaping the<br><em>Leaders</em> of Tomorrow</h1>
+        <p class="lp-subtitle">Excellence in early childhood and elementary education. We nurture young minds with
+          faith, discipline, and dedication to lifelong learning.</p>
+        <div class="lp-actions">
+          <button class="lp-btn lp-btn-primary" onclick="showEnrollPage()">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+              <path fill-rule="evenodd"
+                d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                clip-rule="evenodd" />
+            </svg>
+            Pre-Enroll Now
+          </button>
+          <button class="lp-btn lp-btn-outline" onclick="showLoginPage()">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path fill-rule="evenodd"
+                d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                clip-rule="evenodd" />
+            </svg>
+            Login to Portal
+          </button>
+        </div>
+      </div>
+      <div class="lp-hero-stats">
+        <div class="lp-stat"><span class="lp-stat-num">8</span><span class="lp-stat-label">Grade Levels</span></div>
+        <div class="lp-stat-divider"></div>
+        <div class="lp-stat"><span class="lp-stat-num">100%</span><span class="lp-stat-label">Commitment</span></div>
+        <div class="lp-stat-divider"></div>
+        <div class="lp-stat"><span class="lp-stat-num">S.Y. 2026</span><span class="lp-stat-label">Now Enrolling</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <section id="about-section" class="lp-section">
+      <div class="lp-container">
+        <div class="lp-section-header">
+          <div class="lp-section-tag">Who We Are</div>
+          <h2 class="lp-section-title">About Our School</h2>
+          <p class="lp-section-sub">Committed to building a strong academic foundation and upright character for every
+            child entrusted to our care.</p>
+        </div>
+        <div class="lp-cards">
+          <div class="lp-card">
+            <div class="lp-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <h3>Our Vision</h3>
+            <p>To be the premier institution for foundational learning, fostering a lifelong love for knowledge and
+              strong moral character in every child.</p>
+          </div>
+          <div class="lp-card">
+            <div class="lp-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h3>Our Mission</h3>
+            <p>To provide high-quality education through dynamic teaching methodologies, inclusive environments, and
+              holistic student development programs.</p>
+          </div>
+          <div class="lp-card">
+            <div class="lp-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                <path d="M16 3.13a4 4 0 010 7.75" />
+              </svg>
+            </div>
+            <h3>Core Values</h3>
+            <p>Excellence, Integrity, Compassion, and Resilience — building strong character alongside rigorous
+              academics in every learner.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMS SECTION -->
+    <section id="programs-section" class="lp-section lp-section-alt">
+      <div class="lp-container">
+        <div class="lp-section-header">
+          <div class="lp-section-tag">Academic Programs</div>
+          <h2 class="lp-section-title">Grade Levels Offered</h2>
+          <p class="lp-section-sub">From foundational years to elementary completion — we guide every student through
+            their most formative years.</p>
+        </div>
+        <div class="lp-grades">
+          <div class="lp-grade-chip">
+            <span class="lp-grade-num">K</span>
+            <span class="lp-grade-name">Kinder</span>
+          </div>
+          <div class="lp-grade-chip">
+            <span class="lp-grade-num">P</span>
+            <span class="lp-grade-name">Preparatory</span>
+          </div>
+          <div class="lp-grade-chip">
+            <span class="lp-grade-num">1</span>
+            <span class="lp-grade-name">Grade 1</span>
+          </div>
+          <div class="lp-grade-chip">
+            <span class="lp-grade-num">2</span>
+            <span class="lp-grade-name">Grade 2</span>
+          </div>
+          <div class="lp-grade-chip">
+            <span class="lp-grade-num">3</span>
+            <span class="lp-grade-name">Grade 3</span>
+          </div>
+          <div class="lp-grade-chip">
+            <span class="lp-grade-num">4</span>
+            <span class="lp-grade-name">Grade 4</span>
+          </div>
+          <div class="lp-grade-chip">
+            <span class="lp-grade-num">5</span>
+            <span class="lp-grade-name">Grade 5</span>
+          </div>
+          <div class="lp-grade-chip">
+            <span class="lp-grade-num">6</span>
+            <span class="lp-grade-name">Grade 6</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY SECTION -->
+    <section id="history-section" class="lp-section">
+      <div class="lp-container">
+        <div class="lp-history">
+          <div class="lp-history-text">
+            <div class="lp-section-tag">Our Story</div>
+            <h2 class="lp-section-title" style="text-align:left;">A Legacy of Excellence</h2>
+            <p>St. Nazareth Learning Center was founded with a singular vision: to create a nurturing and safe
+              environment where young minds can truly thrive. Over the years, we have grown from a small community
+              learning center into a fully recognized educational institution.</p>
+            <p>Our curriculum has constantly evolved, adapting to modern educational standards while preserving the
+              traditional Filipino values that have defined our legacy. We take pride in our alumni who have gone on to
+              achieve excellence in their further studies.</p>
+            <button class="lp-btn lp-btn-maroon" style="margin-top:1.75rem; width:auto;"
+              onclick="showEnrollPage()">Apply for Enrollment</button>
+          </div>
+          <div class="lp-history-card">
+            <div class="lp-school-crest">
+              <img src="SNLCLogo.png" alt="SNLC Logo" style="width: 64px; height: 64px; object-fit: contain;">
+            </div>
+            <div class="lp-history-label">St. Nazareth Learning Center</div>
+            <div class="lp-history-sub">Serving our community with excellence and faith</div>
+            <div class="lp-history-tags">
+              <span>Kinder &ndash; Grade 6</span>
+              <span>S.Y. 2026–2027</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="lp-cta">
+      <div class="lp-container lp-cta-inner">
+        <div>
+          <h2>Ready to enroll your child?</h2>
+          <p>Secure your child's slot for School Year 2026–2027. Limited slots available.</p>
+        </div>
+        <div class="lp-cta-btns">
+          <button class="lp-btn lp-btn-gold" onclick="showEnrollPage()">Begin Pre-Enrollment</button>
+          <button class="lp-btn lp-btn-white" onclick="showLoginPage()">Parent Portal Login</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="lp-footer">
+      <p>&copy; 2026 St. Nazareth Learning Center. All rights reserved. &nbsp;|&nbsp; School Year 2026–2027</p>
+    </footer>
+
+  </div>
+
+  <div id="toastContainer"></div>
+
+  <!-- UPDATE FINANCIAL PLAN MODAL -->
+  <div class="modal-overlay" id="finPlanModal">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h3> Update Payment Plan</h3><button class="modal-close" onclick="closeModal('finPlanModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="finUserId">
+        <div class="profile-row"><span class="key">Student</span><span class="val" id="finStudentName"
+            style="font-weight:600;">—</span></div>
+        <div class="profile-row" style="margin-bottom:1rem;"><span class="key">Grade/Sec</span><span class="val"
+            id="finGradeSec">—</span></div>
+
+        <div class="form-group"><label>Payment Plan Options</label>
+          <select id="finPlanSelect">
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-top:1rem;"><label>Total Amount Paid (₱)</label>
+          <input type="number" id="finAmountPaid" step="0.01" min="0" placeholder="0.00" />
+        </div>
+        <div
+          style="font-size:.85rem; color:var(--text-light); background:var(--bg); padding:.75rem; border-radius:6px; margin-top:1rem;">
+          <strong>Total Tuition:</strong> ₱13,000.00<br>
+          <strong>School Year Start:</strong> June 8, 2026<br><br>
+          <em>Monthly: 10 payments<br>Quarterly: 4 payments<br>Annually: 1 full payment</em>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('finPlanModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveFinancialPlan()"> Save Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST ANNOUNCEMENT MODAL -->
+  <div class="modal-overlay" id="announcementModal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3> Post Announcement</h3><button class="modal-close" onclick="closeModal('announcementModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"><label>Title</label><input type="text" id="annTitle"
+            placeholder="e.g. Q2 Tuition Fee Deadline"></div>
+        <div class="form-group"><label>Type</label>
+          <select id="annType">
+            <option value="info">Info / General Notice</option>
+            <option value="warning">Important / Alert</option>
+            <option value="success">Good News / Event</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Message</label>
+          <textarea id="annContent" placeholder="Announcement details..." style="min-height:100px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('announcementModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitAnnouncement()"> Post</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENROLLMENT SUCCESS MODAL -->
+  <div class="modal-overlay" id="enrollSuccessModal">
+    <div class="modal" style="max-width:440px; text-align:center;">
+      <div class="modal-body" style="padding: 40px 30px;">
+        <div style="font-size:48px; margin-bottom:16px;"></div>
+        <h2 style="color:var(--maroon-deep); margin-bottom:12px; font-weight:800; letter-spacing:1px;">THANK YOU</h2>
+        <p
+          style="color:var(--text-mid); font-size:14px; margin-bottom:24px; line-height:1.6; text-align:left; background:#FBF4F5; padding:15px; border-radius:8px; border:1px dashed var(--maroon);">
+          Your pre-enrollment has been submitted.<br><br>
+          <strong>Now you may proceed to the School and Please Prepare:</strong><br>
+          • Report card / Form 138<br>
+          • Birth certificate<br>
+          • ID picture<br>
+          • Certificate of transfer (if applicable)<br><br>
+          <em>To St. Nazareth Learning Center</em>
+        </p>
+        <button class="btn btn-primary" onclick="closeEnrollSuccess()"
+          style="width:100%; padding:12px; justify-content:center;">Return to Login Portal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD/EDIT USER MODAL -->
+  <div class="modal-overlay" id="userModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="userModalTitle"> Add New User</h3><button class="modal-close"
+          onclick="closeModal('userModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editUserId">
+        <div class="grid-2">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="newUserName"
+              placeholder="Juan dela Cruz"></div>
+          <div class="form-group"><label>Username *</label><input type="text" id="newUserUsername"
+              placeholder="jdelacruz"></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group"><label>Password</label><input type="password" id="newUserPassword"
+              placeholder="Leave blank to keep current"></div>
+          <div class="form-group"><label>Role *</label>
+            <select id="newUserRole" onchange="toggleUserFields()">
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" id="newUserEmail"
+            placeholder="email@example.com"></div>
+        <div id="studentFields">
+          <div class="grid-2">
+            <div class="form-group"><label>Grade</label>
+              <select id="newUserGrade">
+                <option value="">Select grade…</option>
+                <option>Kinder</option>
+                <option>Preparatory</option>
+                <option>Grade 1</option>
+                <option>Grade 2</option>
+                <option>Grade 3</option>
+                <option>Grade 4</option>
+                <option>Grade 5</option>
+                <option>Grade 6</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Section</label><input type="text" id="newUserSection"
+                placeholder="e.g. Rizal"></div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group"><label>Class Type</label>
+              <select id="newUserClass">
+                <option value="">Select type…</option>
+                <option>Regular</option>
+                <option>Science</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group"><label>Tuition Fee (₱)</label><input type="number" id="newUserTuition"
+                placeholder="0.00" min="0"></div>
+            <div class="form-group"><label>Amount Paid (₱)</label><input type="number" id="newUserPaid"
+                placeholder="0.00" min="0"></div>
+          </div>
+        </div>
+        <div class="form-group"><label>Status</label>
+          <select id="newUserStatus">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('userModal')">Cancel</button>
+        <button class="btn btn-success" onclick="saveUser()"> Save User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTENDANCE MODAL -->
+  <div class="modal-overlay" id="attendanceModal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3 id="attendanceModalTitle"> Add Attendance Record</h3><button class="modal-close"
+          onclick="closeModal('attendanceModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editAttendanceId">
+        <div class="form-group"><label>Student</label><select id="attStudentSelect">
+            <option value="">Select student…</option>
+          </select></div>
+        <div class="form-group"><label>Date</label><input type="date" id="attDate"></div>
+        <div class="grid-2">
+          <div class="form-group"><label>Time In</label><input type="time" id="attTimeIn"></div>
+          <div class="form-group"><label>Time Out</label><input type="time" id="attTimeOut"></div>
+        </div>
+        <div class="form-group"><label>Status</label>
+          <select id="attStatus">
+            <option value="Present">Present</option>
+            <option value="Late">Late</option>
+            <option value="Absent">Absent</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Late (minutes)</label><input type="number" id="attLateMin" placeholder="0"
+            min="0"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('attendanceModal')">Cancel</button>
+        <button class="btn btn-success" onclick="saveAttendance()"> Save Record</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW USER DETAIL MODAL -->
+  <div class="modal-overlay" id="userDetailModal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3> User Details</h3><button class="modal-close" onclick="closeModal('userDetailModal')">✕</button>
+      </div>
+      <div class="modal-body" id="userDetailBody"></div>
+      <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('userDetailModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPDATE CONTACT MODAL -->
+  <div class="modal-overlay" id="updateContactModal">
+    <div class="modal" style="max-width:440px;">
+      <div class="modal-header">
+        <h3> Update Contact Info</h3><button class="modal-close" onclick="closeModal('updateContactModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"><label>Parent / Guardian Email</label><input type="email" id="updateEmail"
+            placeholder="email@example.com"></div>
+        <div class="form-group"><label>Contact Number</label><input type="text" id="updatePhone"
+            placeholder="+63 9XX XXX XXXX"></div>
+        <div class="form-group"><label>Home Address</label><textarea id="updateAddress" placeholder="Full address"
+            style="min-height:80px;"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('updateContactModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveContactInfo()"> Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM MODAL -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h3 id="confirmTitle"> Confirm Action</h3><button class="modal-close"
+          onclick="closeModal('confirmModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage" style="color:var(--text-mid); font-size:.95rem;"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('confirmModal')">Cancel</button>
+        <button class="btn btn-danger" id="confirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- FORGOT PASSWORD MODAL -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h3> Forgot Password</h3><button class="modal-close" onclick="closeModal('forgotModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-mid); font-size:.9rem; margin-bottom:1rem;">Enter your username to request a password
+          reset from the administrator.</p>
+        <div class="form-group"><label>Username</label><input type="text" id="forgotUsername"
+            placeholder="Your username"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('forgotModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitForgotPassword()"> Request Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="connectionStatus" class="connection-status"></div>
+
+  <script src="js/core/data.js?v=12.8"></script>
+  <script src="js/core/api.js?v=12.5"></script>
+  <script src="js/core/ui.js?v=12.5"></script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Login – St. Nazareth Learning Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=5.1">
+<link rel="icon" type="image/png" href="SNLCLogo.png">
+</head>
+<body>
+
+<div class="login-page" id="loginPage">
+  <div class="login-card">
+    <div class="login-left">
+      <div class="school-icon">
+        <img src="SNLCLogo.png" alt="SNLC Logo" style="width: 64px; height: 64px; object-fit: contain;">
+      </div>
+      <h1>SNLC Portal</h1>
+      <p class="school-sub">St. Nazareth Learning Center</p>
+      <div class="login-feature"><div class="dot">✓</div><span>Real-time attendance tracking</span></div>
+      <div class="login-feature"><div class="dot">✓</div><span>View attendance records &amp; statistics</span></div>
+    </div>
+    <div class="login-right">
+      <div style="margin-bottom: 1.5rem;">
+        <a href="index.html" style="color: var(--text-light); text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 5px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to Home
+        </a>
+      </div>
+      <h2>Welcome Back</h2>
+      <p class="sub">Sign in to access your portal</p>
+      <div class="role-tabs">
+        <button class="role-tab active" id="tabStudent" onclick="switchRole('student')"> Parent / Student</button>
+        <button class="role-tab" id="tabAdmin" onclick="switchRole('admin')"> Admin / Teacher</button>
+      </div>
+      <div class="form-group">
+        <label>Email or Username</label>
+        <input type="text" id="loginUser" autocomplete="username" placeholder="Enter your email or username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" autocomplete="current-password" placeholder="Enter your password" onkeydown="if(event.key==='Enter') doLogin()">
+      </div>
+      <div class="remember-row">
+        <label><input type="checkbox" id="rememberMe" checked> Remember me</label>
+        <a href="#" onclick="showForgotModal(); return false;">Forgot password?</a>
+      </div>
+      <button class="btn btn-primary thumb-friendly-cta" id="loginBtn" style="width:100%; justify-content:center;" onclick="doLogin()">Sign In →</button>
+      <div id="loginError" style="display:none; margin-top:1rem; padding:.75rem; background:var(--danger-bg); color:var(--danger); border-radius:8px; font-size:.85rem; text-align:center;"></div>
+      <p style="text-align:center; font-size:.8rem; color:var(--text-light); margin-top:1.25rem;">
+        New Student? <a href="#" onclick="showEnrollPage(); return false;" style="color:var(--maroon); font-weight:600; text-decoration:none;">Pre-Enroll Now</a><br><br>
+        <span style="display:inline-block;">Don't have an account? <span style="color:var(--maroon); font-weight:600;">Contact school admin</span></span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><h3 id="confirmTitle"> Confirm Action</h3><button class="modal-close" onclick="closeModal('confirmModal')">✕</button></div>
+    <div class="modal-body"><p id="confirmMessage" style="color:var(--text-mid); font-size:.95rem;"></p></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-danger" id="confirmBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="forgotModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><h3> Forgot Password</h3><button class="modal-close" onclick="closeModal('forgotModal')">✕</button></div>
+    <div class="modal-body">
+      <p style="color:var(--text-mid); font-size:.9rem; margin-bottom:1rem;">Enter your username to request a password reset from the administrator.</p>
+      <div class="form-group"><label>Username</label><input type="text" id="forgotUsername" placeholder="Your username"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('forgotModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitForgotPassword()"> Request Reset</button>
+    </div>
+  </div>
+</div>
+
+<div id="connectionStatus" class="connection-status"></div>
+
+<script src="js/core/data.js?v=12.8"></script>
+<script src="js/core/api.js?v=12.5"></script>
+<script src="js/core/ui.js?v=12.5"></script>
+<script src="js/pages/login.js?v=12.5"></script>
+</body>
+</html>

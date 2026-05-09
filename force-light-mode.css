@@ -1,0 +1,47 @@
+/* ── FORCE LIGHT MODE - OVERRIDE DARK MODE ── */
+:root {
+  /* Force light mode colors */
+  --bg: #F6F4F3 !important;
+  --white: #FFFFFF !important;
+  --text: #1C1214 !important;
+  --text-mid: #4A3B3F !important;
+  --muted: #897880 !important;
+  --border: #E8E1E3 !important;
+  --border-light: #F0EAEC !important;
+}
+
+/* Force light mode on body */
+body {
+  background: #F6F4F3 !important;
+  color: #1C1214 !important;
+}
+
+/* Force light mode on sidebar */
+.sidebar {
+  background: #4A1020 !important;
+}
+
+/* Force light mode on cards */
+.card, .modal, .s-card {
+  background: #FFFFFF !important;
+  border-color: #E8E1E3 !important;
+}
+
+/* Force light mode on inputs */
+input, select, textarea {
+  background: #FFFFFF !important;
+  color: #1C1214 !important;
+  border-color: #E8E1E3 !important;
+}
+
+/* Force light mode on main content */
+.main {
+  background: #F6F4F3 !important;
+}
+
+/* Force light mode on topbar */
+.topbar {
+  background: #FFFFFF !important;
+  color: #1C1214 !important;
+}
+

@@ -1,0 +1,855 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SNLC Portal – St. Nazareth Learning Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css?v=5.1">
+<link rel="stylesheet" href="uxui-improvements.css?v=1.0">
+
+<link rel="stylesheet" href="mobile-optimized.css?v=1.0">
+
+<link rel="icon" type="image/png" href="SNLCLogo.png">
+</head>
+<body>
+<div class="app" id="mainApp" >
+    <aside class="sidebar">
+    <div class="s-brand">
+      <div class="s-brand-icon">
+        <img src="SNLCLogo.png" alt="SNLC Logo" style="width: 24px; height: 24px; object-fit: contain;">
+      </div>
+      <div>
+        <div class="s-brand-name">SNLC Portal</div>
+        <div class="s-brand-sub" id="navTitleSub">System</div>
+      </div>
+    </div>
+
+    <div class="s-label">Navigation</div>
+    <div id="navLinks" style="display:flex; flex-direction:column; gap:2px;"></div>
+
+    <div class="s-footer">
+    </div>
+  </aside>
+  <div class="mobile-overlay" onclick="document.querySelector('.sidebar').classList.remove('open')"></div>
+
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button id="sidebarToggle" style="display:none; background:none; border:none; cursor:pointer; padding:6px; border-radius:6px; color:var(--text-mid);" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+        <div>
+          <div class="topbar-title" id="navTitle">Dashboard</div>
+          <div class="topbar-sub">St. Nazareth Learning Center &nbsp;·&nbsp; S.Y. 2026–2027</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="user-pill" onclick="var m=document.getElementById('userPillMenu'); m.style.display=(m.style.display==='block'?'none':'block');" style="cursor:pointer; position:relative;">
+          <div class="u-avatar" id="navAvatar">ST</div>
+          <div>
+            <div class="u-name" id="navUserName">Student Name</div>
+            <div class="u-role" id="navUserRole">Student</div>
+          </div>
+          <div id="userPillMenu" style="display:none; position:absolute; top:calc(100% + 8px); right:0; background:var(--color-background-primary, #fff); border:1px solid var(--color-border-secondary, #e5e7eb); border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.12); min-width:160px; z-index:999; overflow:hidden;">
+            <button onclick="event.stopPropagation(); doLogout();" style="width:100%; display:flex; align-items:center; gap:10px; padding:12px 16px; background:none; border:none; cursor:pointer; font-size:.9rem; color:var(--red, #c0392b); font-weight:500;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="content"><!-- STUDENT DASHBOARD -->
+    <div id="page-student-dashboard" class="page active fade-in">
+      <div class="page-header">
+        <h1 id="studentWelcome">Welcome back! </h1>
+        <p>Here's your attendance overview for School Year 2026–2027</p>
+      </div>
+      <div class="stats">
+        <div class="s-card">
+          <div class="s-card-info"><div class="s-card-num" id="stdPresent">—</div><div class="s-card-label">Days Present</div></div>
+          <div class="s-card-icon ic-green"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-info"><div class="s-card-num" id="stdLate">—</div><div class="s-card-label">Times Late</div></div>
+          <div class="s-card-icon ic-gold"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-info"><div class="s-card-num" id="stdRate">—</div><div class="s-card-label">Attendance Rate</div></div>
+          <div class="s-card-icon ic-maroon"><svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg></div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-info"><div class="s-card-num" id="stdAbsent">—</div><div class="s-card-label">Days Absent</div></div>
+          <div class="s-card-icon ic-red"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3> Recent Attendance Records</h3>
+          <div class="filter-bar">
+            <select style="width:auto; font-size:.82rem; padding:.3rem .7rem;" onchange="filterAttendance(this.value)">
+              <option value="all">All Time</option>
+              <option value="month">This Month</option>
+              <option value="week">Last 7 Days</option>
+            </select>
+            <button class="btn btn-outline btn-sm" onclick="exportStudentAttendanceCSV()"> Export CSV</button>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table>
+            <thead><tr><th>Date</th><th>Day</th><th>Time In</th><th>Time Out</th><th>Status</th><th>Late (min)</th></tr></thead>
+            <tbody id="studentAttendanceBody"><tr><td colspan="6" class="loading">Loading attendance records…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><h3> School Announcements & Updates</h3></div>
+          <div class="card-body" id="dashboardAnnouncementsBody">
+            <div style="padding:.5rem 0; color:var(--text-light); font-size:.85rem; text-align:center;">Loading announcements...</div>
+          </div>
+        </div>
+        <div class="grid-1" style="display:flex; flex-direction:column; gap:1rem;">
+          <button class="btn btn-primary" onclick="showPage('student-grades'); setActiveNavByPage('student-grades')" style="width:100%; padding:1rem;"> View Complete Academic Grades</button>
+          <button class="btn btn-outline" onclick="showPage('student-balances'); setActiveNavByPage('student-balances')" style="width:100%; padding:1rem;"> View Account Balance</button>
+          <button class="btn btn-outline" onclick="showPage('student-calendar'); setActiveNavByPage('student-calendar')" style="width:100%; padding:1rem;"> View School Calendar & Events</button>
+        </div>
+      </div>
+    </div>
+
+<!-- STUDENT GRADES (SNLC STYLE) -->
+<style>
+  /* ── STUDENT HERO CARD ── */
+  .student-card {
+    background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-mid) 55%, #8B2C42 100%);
+    border-radius: 20px;
+    padding: 24px;
+    color: #fff;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 28px rgba(107, 30, 48, 0.30);
+  }
+  .student-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+  }
+  .student-card::after {
+    content: '';
+    position: absolute;
+    bottom: -50px; right: 60px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+  }
+  .student-top { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; position: relative; z-index: 1; }
+  .student-avatar {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    border: 2px solid rgba(255,255,255,.5);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .student-name { font-weight: 700; font-size: 20px; letter-spacing: -0.3px; }
+  .student-grade-lbl { font-size: 13px; opacity: .8; margin-top: 2px; }
+  .student-stats { display: flex; gap: 8px; position: relative; z-index: 1; }
+  .s-stat {
+    flex: 1;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+  .s-stat-val { font-weight: 700; font-size: 22px; line-height: 1; }
+  .s-stat-lbl { font-size: 10px; opacity: .75; margin-top: 3px; text-transform: uppercase; letter-spacing: .05em; }
+
+  /* ── PROMOTION & HONOR PILLS ── */
+  .badge-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px;
+    border-radius: 99px;
+    font-weight: 600;
+    font-size: 13px;
+    border: 1.5px solid;
+  }
+  .pill-promoted { background: var(--green-soft); color: var(--green); border-color: var(--green); }
+  .pill-conditional { background: var(--amber-soft); color: var(--amber); border-color: var(--amber); }
+  .pill-retained { background: var(--red-soft); color: var(--red); border-color: var(--red); }
+  .pill-honor { background: var(--blue-soft); color: var(--blue); border-color: var(--blue); }
+  .pill-no-honor { background: var(--bg); color: var(--text-mid); border-color: var(--border); }
+  .pill-icon { font-size: 15px; }
+
+  /* ── SECTION HEADER ── */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .section-title { font-weight: 700; font-size: 16px; color: var(--text); }
+
+  /* ── QUARTER SWITCHER ── */
+  .quarter-bar {
+    display: flex;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 3px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(30,40,80,.07);
+  }
+  .q-btn {
+    flex: 1;
+    padding: 8px 4px;
+    border: none;
+    border-radius: 9px;
+    background: none;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all .18s;
+  }
+  .q-btn.active {
+    background: var(--maroon);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(107,30,48,.35);
+  }
+  .q-btn:hover:not(.active) { background: var(--bg); color: var(--text); }
+
+  /* ── QUARTER STATS STRIP ── */
+  .q-stats { display: flex; gap: 8px; margin-bottom: 16px; }
+  .q-stat {
+    flex: 1;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(30,40,80,.07);
+  }
+  .q-stat-val { font-weight: 700; font-size: 20px; }
+  .q-stat-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-top: 2px; }
+
+  /* ── SUBJECT CARDS ── */
+  .subject-list { display: flex; flex-direction: column; gap: 10px; }
+  .subject-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    box-shadow: 0 2px 12px rgba(30,40,80,.07);
+    transition: transform .15s, box-shadow .15s;
+    cursor: default;
+  }
+  .subject-card:hover { transform: translateY(-1px); box-shadow: 0 4px 24px rgba(30,40,80,.10); }
+  .subject-card.failing { border-left: 3px solid var(--red); }
+  .subject-card.excellent { border-left: 3px solid var(--blue); }
+  .subject-card.passing { border-left: 3px solid var(--green); }
+
+  .sc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .sc-name { font-weight: 600; font-size: 14px; }
+  .sc-teacher { font-size: 11px; color: var(--text-mid); margin-top: 1px; }
+  .sc-grade-big { font-weight: 700; font-size: 26px; line-height: 1; }
+  .sc-grade-big.color-pass { color: var(--green); }
+  .sc-grade-big.color-fail { color: var(--red); }
+  .sc-grade-big.color-avg  { color: var(--amber); }
+  .sc-grade-big.color-exc  { color: var(--blue); }
+
+  /* COMPONENT BARS */
+  .sc-components { display: flex; gap: 6px; }
+  .comp-item { flex: 1; }
+  .comp-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  .comp-bar-track { height: 5px; background: var(--bg); border-radius: 99px; overflow: hidden; margin-bottom: 3px; }
+  .comp-bar-fill { height: 100%; border-radius: 99px; transition: width .4s ease; }
+  .fill-ww { background: var(--maroon); }
+  .fill-pt { background: var(--green); }
+  .fill-qa { background: var(--amber); }
+  .comp-val { font-weight: 600; font-size: 12px; color: var(--text); }
+
+  .sc-remarks { display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 99px; }
+  .rem-pass { background: var(--green-soft); color: var(--green); }
+  .rem-fail { background: var(--red-soft);   color: var(--red); }
+  .rem-avg  { background: var(--amber-soft); color: var(--amber); }
+  .rem-exc  { background: var(--blue-soft);color: var(--blue); }
+
+  /* ── FINAL TABLE VIEW ── */
+  .final-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(30,40,80,.07);
+  }
+  .final-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .final-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+  .final-table thead th {
+    background: var(--bg);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-mid);
+    padding: 10px 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .final-table thead th:first-child { text-align: left; }
+  .final-table tbody tr { border-bottom: 1px solid var(--border); transition: background .12s; }
+  .final-table tbody tr:last-child { border-bottom: none; }
+  .final-table tbody tr:hover { background: var(--bg); }
+  .final-table td { padding: 11px 12px; font-size: 13px; text-align: center; }
+  .final-table td:first-child { text-align: left; }
+  .subj-nm { font-weight: 600; font-size: 13px; }
+  .subj-tc { font-size: 11px; color: var(--text-mid); margin-top: 1px; }
+  .qcell { font-weight: 500; font-size: 13px; color: var(--text-mid); }
+  .fcell { font-weight: 700; font-size: 14px; }
+  .fcell.c-pass { color: var(--green); }
+  .fcell.c-fail { color: var(--red); }
+  .fcell.c-avg  { color: var(--amber); }
+  .fcell.c-exc  { color: var(--blue); }
+  .final-avg-row { background: var(--maroon-soft); }
+  .final-avg-row td { font-weight: 700; padding: 12px; border-top: 2px solid var(--maroon); }
+
+  /* ── LEGEND ── */
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-mid); }
+  .leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+  .student-card  { animation: fadeUp .4s ease both; }
+  .badge-row     { animation: fadeUp .4s .08s ease both; }
+  .quarter-bar   { animation: fadeUp .4s .12s ease both; }
+  .subject-list  { animation: fadeUp .4s .18s ease both; }
+  .final-card    { animation: fadeUp .4s .18s ease both; }
+</style>
+
+    <div id="page-student-grades" class="page fade-in">
+      <div style="max-width: 800px; margin: 0 auto;">
+        
+        <!-- STUDENT HERO -->
+        <div class="student-card" id="student-card">
+          <div class="student-top">
+            <div class="student-avatar" id="hero-initials">--</div>
+            <div>
+              <div class="student-name" id="hero-name">Loading...</div>
+              <div class="student-grade-lbl" id="hero-grade">--</div>
+            </div>
+          </div>
+          <div class="student-stats">
+            <div class="s-stat">
+              <div class="s-stat-val" id="hero-avg">—</div>
+              <div class="s-stat-lbl">Final Avg</div>
+            </div>
+            <div class="s-stat">
+              <div class="s-stat-val" id="hero-passed">—</div>
+              <div class="s-stat-lbl">Passed</div>
+            </div>
+            <div class="s-stat">
+              <div class="s-stat-val" id="hero-failed">—</div>
+              <div class="s-stat-lbl">Failed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATUS PILLS -->
+        <div class="badge-row" id="badge-row"></div>
+
+        <!-- SECTION HEADER -->
+        <div class="section-header">
+          <div class="section-title">Academic Performance</div>
+        </div>
+
+        <!-- QUARTER BAR -->
+        <div class="quarter-bar">
+          <button class="q-btn active" onclick="setParentGradesQ(1,this)">Q1</button>
+          <button class="q-btn" onclick="setParentGradesQ(2,this)">Q2</button>
+          <button class="q-btn" onclick="setParentGradesQ(3,this)">Q3</button>
+          <button class="q-btn" onclick="setParentGradesQ(4,this)">Q4</button>
+          <button class="q-btn" onclick="setParentGradesQ('final',this)">Final</button>
+        </div>
+
+        <!-- QUARTER STATS STRIP -->
+        <div class="q-stats" id="q-stats"></div>
+
+        <!-- LEGEND (quarter view only) -->
+        <div class="legend" id="legend">
+          <div class="leg-item"><div class="leg-dot" style="background:var(--maroon)"></div> Written Work (25%)</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div> Performance Task (50%)</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--amber)"></div> Quarterly Assessment (25%)</div>
+        </div>
+
+        <!-- VIEWS -->
+        <div id="view-quarter" class="subject-list"></div>
+        <div id="view-final"   class="final-card" style="display:none;"></div>
+      </div>
+    </div>
+    <!-- STUDENT BALANCES (OneSnlc STYLE) -->
+    <div id="page-student-balances" class="page fade-in">
+      <div class="oneSnlc-page-header">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <label style="margin:0; font-size:12px; color:var(--text-mid);">School Year & Term:</label>
+          <select>
+            <option>2026-2027 1st Term</option>
+            <option selected>2026-2027 2nd Term</option>
+          </select>
+        </div>
+        <div class="program-title" id="balancesProgramTitle">Elementary School</div>
+        <div class="total-balance">Total Balance: <span id="oneSnlcTotalBalanceTop">PhP 0.00</span></div>
+      </div>
+
+      <div class="grid-2">
+        <!-- LEFT COLUMN: CHARGES AND PAYMENTS -->
+        <div>
+          <!-- Charges Card -->
+          <div class="oneSnlc-card">
+            <div class="oneSnlc-card-header"><div class="oneSnlc-card-title">Charges for 2026-2027 2nd Term</div></div>
+            <table class="oneSnlc-table">
+              <tbody>
+                <tr><td class="desc-col">Registration Fee</td><td class="amount-col">PhP 0.00</td></tr>
+                <tr>
+                  <td class="desc-col">
+                    Tuition and Miscellaneous Fee<br>
+                    <span style="font-size:10px; color:var(--muted); font-weight:normal;">(Tuition Fee, ID Fee, Insurance, Publication Fee, Student Services Fee)</span>
+                  </td>
+                  <td class="amount-col" id="oneSnlcTuitionFee">PhP 13,000.00</td>
+                </tr>
+                <tr>
+                  <td class="desc-col">
+                    Miscellaneous Fee<br>
+                    <span style="font-size:10px; color:var(--muted); font-weight:normal;">(General Software License, Institutional Development Fee, etc.)</span>
+                  </td>
+                  <td class="amount-col" id="oneSnlcMiscFee">PhP 0.00</td>
+                </tr>
+                <tr>
+                  <td class="desc-col">
+                    Other School Fees<br>
+                    <span style="font-size:10px; color:var(--muted); font-weight:normal;">(General Software License, Institutional Development Fee...)</span>
+                  </td>
+                  <td class="amount-col">PhP 0.00</td>
+                </tr>
+                <tr class="total-row-yellow">
+                  <td class="desc-col">Gross Assessment</td>
+                  <td class="amount-col" id="oneSnlcGrossAssessment">PhP 13,000.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Other Charges -->
+          <div class="oneSnlc-card">
+            <div class="oneSnlc-card-header"><div class="oneSnlc-card-title">Other Charges for 2026-2027 2nd Term</div></div>
+            <table class="oneSnlc-table">
+              <tbody>
+                <tr><td class="desc-col">None</td><td class="amount-col">PhP 0.00</td></tr>
+                <tr class="total-row-yellow">
+                  <td class="desc-col">Total</td><td class="amount-col">PhP 0.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Payments and Adjustments -->
+          <div class="oneSnlc-card">
+            <div class="oneSnlc-card-header"><div class="oneSnlc-card-title">Payments and Adjustments</div></div>
+            <table class="oneSnlc-table">
+              <tbody id="oneSnlcPaymentsBody">
+                <!-- Injected via JS -->
+                <tr><td class="desc-col">No payments made</td><td class="amount-col">PhP 0.00</td></tr>
+              </tbody>
+              <tbody>
+                <tr class="total-row-blue">
+                  <td class="desc-col">Total Payments and Adjustments</td>
+                  <td class="amount-col" id="oneSnlcTotalPayments">PhP 0.00</td>
+                </tr>
+                <tr class="total-row-yellow">
+                  <td class="desc-col">Other Charges Balance</td>
+                  <td class="amount-col" id="oneSnlcFinalBalance">PhP 13,000.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: PAYMENT SCHEDULE -->
+        <div>
+          <div class="oneSnlc-card">
+            <div class="oneSnlc-card-header"><div class="oneSnlc-card-title">Payment Schedule</div></div>
+            <table class="oneSnlc-table">
+              <tbody id="oneSnlcPaymentScheduleBody">
+                <tr><td class="desc-col">10 Jun, 2026</td><td class="amount-col">PhP 1,300.00</td></tr>
+              </tbody>
+              <tbody>
+                <tr class="total-row-yellow">
+                  <td class="desc-col">Total</td>
+                  <td class="amount-col" id="oneSnlcScheduleTotal">PhP 13,000.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDENT LEAVE REQUEST -->
+    <div id="page-student-leave" class="page fade-in">
+      <div class="page-header"><h1> Leave Request</h1><p>Submit and track your leave requests</p></div>
+      <div class="grid-2" style="align-items:start;">
+        <div class="card">
+          <div class="card-head"><h3> Submit Leave Request</h3></div>
+          <div class="card-body">
+            <div class="form-group"><label>Start Date</label><input type="date" id="leaveStartDate"></div>
+            <div class="form-group"><label>End Date</label><input type="date" id="leaveEndDate"></div>
+            <div class="form-group"><label>Leave Type</label>
+              <select id="leaveType">
+                <option value="">Select type…</option>
+                <option>Sick Leave</option>
+                <option>Family Emergency</option>
+                <option>Vacation</option>
+                <option>Medical Appointment</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Reason</label>
+              <textarea id="leaveReason" placeholder="Briefly explain the reason for your leave…" style="min-height:80px;"></textarea>
+            </div>
+            <div class="form-group" style="display:flex; align-items:center; gap:.5rem;">
+              <input type="checkbox" id="leaveConfirm" style="width:auto; margin:0;">
+              <label style="margin:0; font-size:.85rem; color:var(--text-mid);">I confirm that the information above is accurate.</label>
+            </div>
+            <div id="leaveMessage" style="display:none;"></div>
+            <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:.5rem;" onclick="submitLeave()"> Submit Request</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3> Leave History</h3></div>
+          <div class="card-body" style="padding:0;">
+            <table>
+              <thead><tr><th>Submitted</th><th>Start Date</th><th>Type</th><th>Status</th></tr></thead>
+              <tbody id="leaveHistoryBody"><tr><td colspan="4" class="loading">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHOOL CALENDAR -->
+    <div id="page-student-calendar" class="page fade-in">
+      <div class="page-header"><h1> School Calendar &amp; Events</h1><p>Important dates, holidays, and school activities</p></div>
+      <div class="card">
+        <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+          <button class="btn btn-outline" onclick="CalendarViewer.prevMonth()">&#8592; Previous</button>
+          <span id="calViewerMonthLabel" style="font-size:1.2rem;font-weight:600;"></span>
+          <button class="btn btn-outline" onclick="CalendarViewer.nextMonth()">Next &#8594;</button>
+        </div>
+        <div class="card-body">
+          <div id="parentCalendarGrid"></div>
+        </div>
+        <div style="padding:0.75rem 1.25rem;border-top:1px solid var(--border,#e5e7eb);display:flex;justify-content:flex-end;">
+          <button class="btn btn-outline btn-sm" onclick="CalendarViewer.refresh()" style="font-size:12px;">
+            &#8635; Refresh Calendar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-student-contact" class="page fade-in">
+      <div class="page-header"><h1>💬 Contact Admin</h1><p>Send a message directly to the school administrator</p></div>
+      <div class="card" style="max-width:520px; margin:0 auto;">
+        <div class="card-body" style="text-align:center; padding:2.5rem 2rem;">
+          <div style="font-size:56px; margin-bottom:1rem;">📩</div>
+          <h3 style="color:var(--maroon-deep); margin-bottom:.75rem;">Message via Facebook</h3>
+          <p style="color:var(--text-mid); font-size:.92rem; line-height:1.7; margin-bottom:1.5rem;">
+            For concerns about grades, attendance, payments, or any school matter —
+            click the button below to open a direct conversation with the school admin on Facebook Messenger.
+          </p>
+          <a href="https://www.facebook.com/messages/t/27755502384049001"
+             target="_blank" rel="noopener noreferrer"
+             class="btn btn-primary"
+             style="display:inline-flex; align-items:center; gap:.6rem; font-size:1rem; padding:.9rem 2rem; text-decoration:none;">
+            <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.929 1.446 5.546 3.714 7.266V22l3.385-1.865c.905.25 1.862.385 2.901.385 5.523 0 10-4.145 10-9.277C22 6.145 17.523 2 12 2zm1.007 12.493l-2.548-2.718-4.973 2.718 5.472-5.81 2.61 2.718 4.911-2.718-5.472 5.81z"/></svg>
+            Open Facebook Messenger
+          </a>
+          <p style="color:var(--text-light); font-size:.78rem; margin-top:1.25rem;">
+            A Facebook account is required. The school typically responds within 1–2 school days.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    </div> style="text-align: center; padding: 20px; font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--border-light); background: var(--bg);">
+       2026 St. Nazareth Learning Center. All rights reserved. | School Management System
+    </footer>
+  </div>
+</div>
+
+
+<div id="toastContainer"></div>
+
+<!-- UPDATE FINANCIAL PLAN MODAL -->
+<div class="modal-overlay" id="finPlanModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><h3> Update Payment Plan</h3><button class="modal-close" onclick="closeModal('finPlanModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="finUserId">
+      <div class="profile-row"><span class="key">Student</span><span class="val" id="finStudentName" style="font-weight:600;">—</span></div>
+      <div class="profile-row" style="margin-bottom:1rem;"><span class="key">Grade/Sec</span><span class="val" id="finGradeSec">—</span></div>
+      
+      <div class="form-group"><label>Payment Plan Options</label>
+        <select id="finPlanSelect">
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
+          <option value="Annually">Annually</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:1rem;"><label>Total Amount Paid (₱)</label>
+        <input type="number" id="finAmountPaid" step="0.01" min="0" placeholder="0.00" />
+      </div>
+      <div style="font-size:.85rem; color:var(--text-light); background:var(--bg); padding:.75rem; border-radius:6px; margin-top:1rem;">
+        <strong>Total Tuition:</strong> ₱13,000.00<br>
+        <strong>School Year Start:</strong> June 8, 2026<br><br>
+        <em>Monthly: 10 payments<br>Quarterly: 4 payments<br>Annually: 1 full payment</em>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('finPlanModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveFinancialPlan()"> Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- POST ANNOUNCEMENT MODAL -->
+<div class="modal-overlay" id="announcementModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header"><h3> Post Announcement</h3><button class="modal-close" onclick="closeModal('announcementModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Title</label><input type="text" id="annTitle" placeholder="e.g. Q2 Tuition Fee Deadline"></div>
+      <div class="form-group"><label>Type</label>
+        <select id="annType">
+          <option value="info">Info / General Notice</option>
+          <option value="warning">Important / Alert</option>
+          <option value="success">Good News / Event</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label>
+        <textarea id="annContent" placeholder="Announcement details..." style="min-height:100px;"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('announcementModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitAnnouncement()"> Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENROLLMENT SUCCESS MODAL -->
+<div class="modal-overlay" id="enrollSuccessModal">
+  <div class="modal" style="max-width:440px; text-align:center;">
+    <div class="modal-body" style="padding: 40px 30px;">
+      <div style="font-size:48px; margin-bottom:16px;"></div>
+      <h2 style="color:var(--maroon-deep); margin-bottom:12px; font-weight:800; letter-spacing:1px;">THANK YOU</h2>
+      <p style="color:var(--text-mid); font-size:14px; margin-bottom:24px; line-height:1.6; text-align:left; background:#FBF4F5; padding:15px; border-radius:8px; border:1px dashed var(--maroon);">
+        Your pre-enrollment has been submitted.<br><br>
+        <strong>Now you may proceed to the School and Please Prepare:</strong><br>
+        • Report card / Form 138<br>
+        • Birth certificate<br>
+        • ID picture<br>
+        • Certificate of transfer (if applicable)<br><br>
+        <em>To St. Nazareth Learning Center</em>
+      </p>
+      <button class="btn btn-primary" onclick="closeEnrollSuccess()" style="width:100%; padding:12px; justify-content:center;">Return to Login Portal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT USER MODAL -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal">
+    <div class="modal-header"><h3 id="userModalTitle"> Add New User</h3><button class="modal-close" onclick="closeModal('userModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editUserId">
+      <div class="grid-2">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="newUserName" placeholder="Juan dela Cruz"></div>
+        <div class="form-group"><label>Username *</label><input type="text" id="newUserUsername" placeholder="jdelacruz"></div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label>Password</label><input type="password" id="newUserPassword" placeholder="Leave blank to keep current"></div>
+        <div class="form-group"><label>Role *</label>
+          <select id="newUserRole" onchange="toggleUserFields()">
+            <option value="student">Student</option><option value="teacher">Teacher</option><option value="admin">Admin</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" id="newUserEmail" placeholder="email@example.com"></div>
+      <div id="studentFields">
+        <div class="grid-2">
+          <div class="form-group"><label>Grade</label>
+            <select id="newUserGrade"><option value="">Select grade…</option>
+              <option>Kinder</option><option>Preparatory</option><option>Grade 1</option>
+              <option>Grade 2</option><option>Grade 3</option><option>Grade 4</option>
+              <option>Grade 5</option><option>Grade 6</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Section</label><input type="text" id="newUserSection" placeholder="e.g. Rizal"></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group"><label>Class Type</label>
+            <select id="newUserClass"><option value="">Select type…</option>
+              <option>Regular</option><option>Science</option>
+              <option>Morning</option><option>Afternoon</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group"><label>Tuition Fee (₱)</label><input type="number" id="newUserTuition" placeholder="0.00" min="0"></div>
+          <div class="form-group"><label>Amount Paid (₱)</label><input type="number" id="newUserPaid" placeholder="0.00" min="0"></div>
+        </div>
+      </div>
+      <div class="form-group"><label>Status</label>
+        <select id="newUserStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('userModal')">Cancel</button>
+      <button class="btn btn-success" onclick="saveUser()"> Save User</button>
+    </div>
+  </div>
+</div>
+
+<!-- ATTENDANCE MODAL -->
+<div class="modal-overlay" id="attendanceModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header"><h3 id="attendanceModalTitle"> Add Attendance Record</h3><button class="modal-close" onclick="closeModal('attendanceModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editAttendanceId">
+      <div class="form-group"><label>Student</label><select id="attStudentSelect"><option value="">Select student…</option></select></div>
+      <div class="form-group"><label>Date</label><input type="date" id="attDate"></div>
+      <div class="grid-2">
+        <div class="form-group"><label>Time In</label><input type="time" id="attTimeIn"></div>
+        <div class="form-group"><label>Time Out</label><input type="time" id="attTimeOut"></div>
+      </div>
+      <div class="form-group"><label>Status</label>
+        <select id="attStatus"><option value="Present">Present</option><option value="Late">Late</option><option value="Absent">Absent</option></select>
+      </div>
+      <div class="form-group"><label>Late (minutes)</label><input type="number" id="attLateMin" placeholder="0" min="0"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('attendanceModal')">Cancel</button>
+      <button class="btn btn-success" onclick="saveAttendance()"> Save Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW USER DETAIL MODAL -->
+<div class="modal-overlay" id="userDetailModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header"><h3> User Details</h3><button class="modal-close" onclick="closeModal('userDetailModal')">✕</button></div>
+    <div class="modal-body" id="userDetailBody"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('userDetailModal')">Close</button></div>
+  </div>
+</div>
+
+<!-- UPDATE CONTACT MODAL -->
+<div class="modal-overlay" id="updateContactModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header"><h3> Update Contact Info</h3><button class="modal-close" onclick="closeModal('updateContactModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Parent / Guardian Email</label><input type="email" id="updateEmail" placeholder="email@example.com"></div>
+      <div class="form-group"><label>Contact Number</label><input type="text" id="updatePhone" placeholder="+63 9XX XXX XXXX"></div>
+      <div class="form-group"><label>Home Address</label><textarea id="updateAddress" placeholder="Full address" style="min-height:80px;"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('updateContactModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveContactInfo()"> Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><h3 id="confirmTitle"> Confirm Action</h3><button class="modal-close" onclick="closeModal('confirmModal')">✕</button></div>
+    <div class="modal-body"><p id="confirmMessage" style="color:var(--text-mid); font-size:.95rem;"></p></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-danger" id="confirmBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="forgotModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><h3> Forgot Password</h3><button class="modal-close" onclick="closeModal('forgotModal')">✕</button></div>
+    <div class="modal-body">
+      <p style="color:var(--text-mid); font-size:.9rem; margin-bottom:1rem;">Enter your username to request a password reset from the administrator.</p>
+      <div class="form-group"><label>Username</label><input type="text" id="forgotUsername" placeholder="Your username"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('forgotModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitForgotPassword()"> Request Reset</button>
+    </div>
+  </div>
+</div>
+
+<nav id="mobileBottomNav" class="mobile-bottom-nav" aria-label="Mobile Navigation"></nav>
+
+<div id="connectionStatus" class="connection-status"></div>
+
+<script src="js/core/data.js?v=12.8"></script>
+<script src="js/core/api.js?v=12.6"></script>
+<script src="js/core/ui.js?v=12.6"></script>
+<script src="js/mobile/mobile-nav.js?v=1.0"></script>
+<script src="js/pages/parent.js?v=12.6"></script>
+<script src="js/features/attendance.js?v=12.6"></script>
+<script src="js/features/grades.js?v=12.6"></script>
+<script src="js/features/financial.js?v=12.6"></script>
+<script src="js/features/announcements.js?v=12.6"></script>
+<script src="js/features/leaves.js?v=12.6"></script>
+<script src="js/features/calendar.js?v=1.0"></script>
+<script>
+  // Close user-pill dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('userPillMenu');
+    if (!menu) return;
+    const pill = menu.closest('.user-pill');
+    if (pill && !pill.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  });
+
+  // ─── CALENDAR VIEWER OBSERVER ───
+  document.addEventListener('DOMContentLoaded', () => {
+    let calViewerInitialized = false;
+    const calPage = document.getElementById('page-student-calendar');
+    if (calPage) {
+      const calObserver = new MutationObserver(() => {
+        if (calPage.classList.contains('active')) {
+          if (!calViewerInitialized) {
+            calViewerInitialized = true;
+            CalendarViewer.init('parentCalendarGrid');
+          } else {
+            // Already initialized — re-fetch to pick up any admin changes
+            CalendarViewer.refresh();
+          }
+        }
+      });
+      calObserver.observe(calPage, { attributes: true, attributeFilter: ['class'] });
+    }
+  });
+</script>
+</body>
+</html>

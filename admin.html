@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SNLC Portal – St. Nazareth Learning Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css?v=5.1">
+<link rel="stylesheet" href="uxui-improvements.css?v=1.0">
+
+<link rel="stylesheet" href="mobile-optimized.css?v=1.0">
+
+<link rel="icon" type="image/png" href="SNLCLogo.png">
+</head>
+<body>
+<div class="app" id="mainApp" >
+    <aside class="sidebar">
+    <div class="s-brand">
+      <div class="s-brand-icon">
+        <img src="SNLCLogo.png" alt="SNLC Logo" style="width: 24px; height: 24px; object-fit: contain;">
+      </div>
+      <div>
+        <div class="s-brand-name">SNLC Portal</div>
+        <div class="s-brand-sub" id="navTitleSub">System</div>
+      </div>
+    </div>
+
+    <div class="s-label">Navigation</div>
+    <div id="navLinks" style="display:flex; flex-direction:column; gap:2px;"></div>
+
+    <div class="s-footer"></div>
+  </aside>
+  <div class="mobile-overlay" onclick="document.querySelector('.sidebar').classList.remove('open')"></div>
+
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button id="sidebarToggle" style="display:none; background:none; border:none; cursor:pointer; padding:6px; border-radius:6px; color:var(--text-mid);" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+        <div>
+          <div class="topbar-title" id="navTitle">Dashboard</div>
+          <div class="topbar-sub">St. Nazareth Learning Center &nbsp;·&nbsp; S.Y. 2026–2027</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="user-pill" onclick="var m=document.getElementById('adminPillMenu'); m.style.display=(m.style.display==='block'?'none':'block');" style="cursor:pointer; position:relative;">
+          <div class="u-avatar" id="navAvatar">ST</div>
+          <div>
+            <div class="u-name" id="navUserName">Student Name</div>
+            <div class="u-role" id="navUserRole">Student</div>
+          </div>
+          <div id="adminPillMenu" style="display:none; position:absolute; top:calc(100% + 8px); right:0; background:var(--color-background-primary, #fff); border:1px solid var(--color-border-secondary, #e5e7eb); border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.12); min-width:160px; z-index:999; overflow:hidden;">
+            <button onclick="event.stopPropagation(); doLogout();" style="width:100%; display:flex; align-items:center; gap:10px; padding:12px 16px; background:none; border:none; cursor:pointer; font-size:.9rem; color:var(--red, #c0392b); font-weight:500;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="content"><!-- ADMIN DASHBOARD -->
+    <div id="page-admin-dashboard" class="page fade-in">
+      <div class="page-header"><h1> Admin Dashboard</h1><p>System Overview | School Year 2026–2027</p></div>
+      <div id="adminAlertBanner" style="display:none;" class="alert-banner warning"> <span id="adminAlertText"></span></div>
+      <div class="stats">
+        <div class="s-card">
+          <div class="s-card-info"><div class="s-card-num" id="adminStudents">—</div><div class="s-card-label">Total Students</div></div>
+          <div class="s-card-icon ic-maroon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-info"><div class="s-card-num" id="adminTeachers">—</div><div class="s-card-label">Total Teachers</div></div>
+          <div class="s-card-icon ic-gold"><svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg></div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-info"><div class="s-card-num" id="adminAttendance">—</div><div class="s-card-label">Today's Attendance</div></div>
+          <div class="s-card-icon ic-green"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-info"><div class="s-card-num" id="adminAlerts">—</div><div class="s-card-label">Pending Enrollments</div></div>
+          <div class="s-card-icon ic-red"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></div>
+        </div>
+      </div>
+      
+      <div class="chart-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-head"><h3> Enrollment by Grade</h3></div>
+          <div class="card-body"><canvas id="enrollmentChart"></canvas></div>
+        </div>
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-head"><h3> Attendance Trends (Last 7 Days)</h3></div>
+          <div class="card-body"><canvas id="attendanceChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:1.5rem;">
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-head"><h3> Quick Actions</h3></div>
+          <div class="card-body">
+            <div class="quick-actions">
+              <button class="btn btn-primary" onclick="showPage('admin-users'); setActiveNavByPage('admin-users')"> Manage Users</button>
+              <button class="btn btn-gold" onclick="showPage('admin-financials'); setActiveNavByPage('admin-financials')"> Financials</button>
+              <button class="btn btn-success" onclick="showPage('admin-enrollments'); setActiveNavByPage('admin-enrollments')"> Enrollments</button>
+              <button class="btn btn-outline" onclick="showPage('admin-reports'); setActiveNavByPage('admin-reports')"> Reports</button>
+              <button class="btn btn-outline" onclick="openRfidTerminalGuide()"> RFID Java Terminal</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-head"><h3> Recent Activity</h3></div>
+          <div class="card-body" style="padding:0; max-height:200px; overflow-y:auto;">
+            <table>
+              <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Status</th></tr></thead>
+              <tbody id="adminActivityBody"><tr><td colspan="4" class="loading">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN USERS (Card Grid) -->
+    <style>
+      .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+      .page-title { font-size: 18px; font-weight: 500; color: var(--text); }
+      .page-sub { font-size: 13px; color: var(--text-mid); margin-top: 2px; }
+      .search-bar { display: flex; gap: 8px; align-items: center; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--r-sm); padding: 6px 12px; font-size: 13px; color: var(--text-mid); width: 200px; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+      .user-card { position: relative; background: var(--white); border: 0.5px solid var(--border); border-radius: var(--r); overflow: hidden; cursor: pointer; transition: border-color 0.2s, transform 0.15s; aspect-ratio: 1 / 1; }
+      .user-card:hover { border-color: var(--maroon); transform: translateY(-2px); }
+      .card-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 16px 12px; gap: 10px; }
+      .avatar { width: 64px; height: 64px; border-radius: 12px; background: var(--maroon-soft); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 500; color: var(--maroon); border: 2px solid var(--border); flex-shrink: 0; }
+      .card-info { text-align: center; }
+      .card-name { font-size: 13px; font-weight: 500; color: var(--text); }
+      .card-role { font-size: 11px; color: var(--text-mid); margin-top: 2px; }
+      .card-grade { font-size: 11px; color: var(--muted); margin-top: 1px; }
+      .status-dot { width: 8px; height: 8px; border-radius: 50%; position: absolute; top: 12px; right: 12px; }
+      .status-dot.active { background: var(--green); }
+      .status-dot.inactive { background: var(--red); }
+      .card-actions { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; opacity: 0; transition: opacity 0.2s; border-radius: var(--r); }
+      .user-card:hover .card-actions { opacity: 1; }
+      .action-btn { font-size: 12px; font-weight: 500; padding: 6px 16px; border-radius: var(--r-sm); border: none; cursor: pointer; width: 120px; text-align: center; }
+      .btn-edit { background: #fff; color: var(--text); }
+      .btn-deactivate { background: var(--red); color: #fff; }
+      .btn-activate { background: var(--green); color: #fff; }
+
+      /* OVERLAY */
+      .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+      .overlay.open { opacity: 1; pointer-events: all; }
+      .modal { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--r); width: 680px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; transform: scale(0.92); transition: transform 0.25s cubic-bezier(.34,1.56,.64,1); }
+      .overlay.open .modal { transform: scale(1); }
+
+      /* MODAL HEADER */
+      .modal-header { display: flex; align-items: center; gap: 16px; padding: 18px 24px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+      .modal-avatar { width: 52px; height: 52px; border-radius: 10px; background: var(--maroon-soft); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 500; color: var(--maroon); flex-shrink: 0; }
+      .modal-name { font-size: 15px; font-weight: 500; color: var(--text); }
+      .modal-meta { font-size: 12px; color: var(--text-mid); margin-top: 3px; }
+      .modal-close { margin-left: auto; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-mid); padding: 4px 8px; border-radius: var(--r-sm); }
+      .modal-close:hover { background: var(--bg); }
+
+      /* PROFILE INFO (no tabs) */
+      .profile-section { padding: 20px 24px; overflow-y: auto; flex: 1; }
+      .section-label { font-size: 11px; font-weight: 500; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+      .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .info-field label { display: block; font-size: 11px; color: var(--text-mid); margin-bottom: 4px; }
+      .info-field input, .info-field select { width: 100%; font-size: 13px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--r-sm); padding: 7px 10px; color: var(--text); }
+      .open-tabs-hint { margin-top: 16px; padding: 10px 14px; background: var(--bg); border-radius: var(--r-sm); border: 0.5px solid var(--border); font-size: 12px; color: var(--text-mid); display: flex; align-items: center; gap: 8px; }
+
+      /* TABS */
+      .tab-bar { display: flex; border-bottom: 0.5px solid var(--border); padding: 0 24px; flex-shrink: 0; background: var(--white); }
+      .tab-btn { font-size: 13px; padding: 10px 16px; border: none; background: none; cursor: pointer; color: var(--text-mid); border-bottom: 2px solid transparent; margin-bottom: -0.5px; transition: color 0.15s, border-color 0.15s; }
+      .tab-btn.active { color: var(--maroon); border-bottom-color: var(--maroon); }
+      .tab-btn:hover:not(.active) { color: var(--text); }
+
+      /* TAB CONTENT */
+      .tab-content { padding: 20px 24px; overflow-y: auto; flex: 1; }
+
+      /* PLAN TABS */
+      .plan-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+      .plan-tab { font-size: 12px; padding: 5px 14px; border-radius: var(--r-sm); border: 0.5px solid var(--border); cursor: pointer; background: none; color: var(--text-mid); transition: all 0.15s; }
+      .plan-tab.active { background: var(--maroon-soft); color: var(--maroon); border-color: var(--maroon); }
+
+      /* PAYMENT ROWS */
+      .payment-grid { display: flex; flex-direction: column; gap: 8px; }
+      .payment-row { display: flex; align-items: center; justify-content: space-between; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--r-sm); padding: 10px 14px; }
+      .payment-label { font-size: 13px; color: var(--text); }
+      .payment-due { font-size: 11px; color: var(--text-mid); margin-top: 2px; }
+      .pay-toggle { display: flex; align-items: center; gap: 8px; }
+      .paid-badge { font-size: 11px; padding: 3px 10px; border-radius: var(--r-sm); font-weight: 500; }
+      .paid-badge.paid { background: var(--green-soft); color: var(--green); }
+      .paid-badge.unpaid { background: var(--red-soft); color: var(--red); }
+      .toggle-btn { font-size: 11px; padding: 4px 12px; border-radius: var(--r-sm); cursor: pointer; border: 0.5px solid var(--border); background: var(--white); color: var(--text); }
+      .toggle-btn:hover { background: var(--bg); }
+
+      /* GRADES */
+      .grades-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      .grades-table thead th { font-size: 11px; font-weight: 500; color: var(--text-mid); text-align: left; padding: 6px 8px; border-bottom: 0.5px solid var(--border); text-transform: uppercase; letter-spacing: 0.05em; }
+      .grades-table thead th:last-child { text-align: center; }
+      .grades-table tbody tr { border-bottom: 0.5px solid var(--border); }
+      .grades-table tbody tr:last-child { border-bottom: none; }
+      .grades-table td { padding: 7px 8px; font-size: 12px; color: var(--text); }
+      .grade-input { width: 52px; font-size: 12px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--r-sm); padding: 4px 6px; color: var(--text); text-align: center; }
+      .grade-input:focus { outline: none; border-color: var(--maroon); }
+      .grade-badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: var(--r-sm); font-weight: 500; text-align: center; min-width: 36px; }
+      .grade-badge.pass { background: var(--green-soft); color: var(--green); }
+      .grade-badge.fail { background: var(--red-soft); color: var(--red); }
+      .grade-badge.avg { background: var(--amber-soft); color: var(--amber); }
+      .grade-badge.excellent { background: var(--blue-soft); color: var(--blue); }
+
+      /* SUMMARY STATS */
+      .grades-summary { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+      .g-stat { flex: 1; min-width: 72px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--r-sm); padding: 10px 10px; text-align: center; }
+      .g-stat-val { font-size: 18px; font-weight: 600; color: var(--text); }
+      .g-stat-label { font-size: 10px; color: var(--text-mid); margin-top: 2px; }
+
+      /* STATUS CARDS */
+      .status-cards { display: flex; gap: 8px; margin-bottom: 14px; }
+      .status-card { flex: 1; border-radius: var(--r-sm); padding: 10px 14px; display: flex; flex-direction: column; gap: 3px; border: 0.5px solid; }
+      .status-card .s-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; }
+      .status-card .s-value { font-size: 14px; font-weight: 600; }
+      .status-card .s-note { font-size: 10px; opacity: 0.75; }
+      .status-card.promoted { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+      .status-card.conditional { background: var(--amber-soft); border-color: var(--amber); color: var(--amber); }
+      .status-card.retained { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+      .status-card.honor { background: var(--blue-soft); border-color: var(--blue); color: var(--blue); }
+      .status-card.no-honor { background: var(--bg); border-color: var(--border); color: var(--text-mid); }
+
+      .quarter-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+      .quarter-tab { font-size: 12px; padding: 5px 12px; border-radius: var(--r-sm); border: 0.5px solid var(--border); cursor: pointer; background: none; color: var(--text-mid); transition: all 0.15s; }
+      .quarter-tab.active { background: var(--maroon-soft); color: var(--maroon); border-color: var(--maroon); }
+
+      /* WEIGHTED INPUT GROUP */
+      .weight-group { display: flex; gap: 4px; align-items: center; }
+      .weight-label { font-size: 10px; color: var(--muted); white-space: nowrap; }
+
+      /* FINAL GRADE ROW */
+      .final-row { background: var(--bg); border-top: 1px solid var(--border); }
+      .final-row td { font-weight: 600 !important; padding: 9px 8px !important; font-size: 13px !important; }
+
+      /* SECTION DIVIDER */
+      .section-divider { font-size: 11px; font-weight: 500; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.06em; margin: 14px 0 8px; }
+
+      /* FOOTER */
+      .modal-footer { padding: 12px 24px; border-top: 0.5px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-shrink: 0; background: var(--white); }
+      .btn-save { font-size: 13px; padding: 8px 20px; background: var(--maroon-soft); color: var(--maroon); border: 0.5px solid var(--maroon); border-radius: var(--r-sm); cursor: pointer; font-weight: 500; }
+      .btn-cancel { font-size: 13px; padding: 8px 20px; background: none; border: 0.5px solid var(--border); border-radius: var(--r-sm); cursor: pointer; color: var(--text-mid); }
+      .btn-deact-modal { font-size: 13px; padding: 8px 20px; background: none; border: 0.5px solid var(--border); border-radius: var(--r-sm); cursor: pointer; color: var(--red); margin-right: auto; }
+
+      /* TOOLTIP / INFO PILL */
+      .info-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 10px; border-radius: 99px; background: var(--bg); border: 0.5px solid var(--border); color: var(--text-mid); margin-left: 4px; }
+
+      .profile-pic-dropzone {
+        border: 1px dashed var(--border);
+        border-radius: var(--r-sm);
+        padding: 14px 12px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--text-mid);
+        cursor: pointer;
+        margin-top: 8px;
+        transition: background 0.15s ease, border-color 0.15s ease;
+      }
+      .profile-pic-dropzone:hover { background: var(--bg); }
+      .profile-pic-dropzone.dragover { background: var(--maroon-soft); border-color: var(--maroon); color: var(--maroon); }
+      .profile-pic-tools .btn-link-remove {
+        margin-top: 10px;
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 12px;
+        color: var(--text-mid);
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .profile-pic-tools .btn-link-remove:hover { color: var(--red); }
+      .profile-pic-upload-row {
+        display: flex;
+        gap: 12px;
+        align-items: stretch;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .profile-pic-upload-row .profile-pic-dropzone { flex: 1; min-width: 160px; margin-top: 0; }
+      .profile-pic-upload-row .btn-link-remove { margin-top: 0; align-self: center; white-space: nowrap; }
+      .new-user-photo-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+      .new-user-photo-row input[type="file"] { flex: 1; min-width: 140px; }
+      .new-user-photo-row .btn-link-remove {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 12px;
+        color: var(--text-mid);
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .new-user-photo-row .btn-link-remove:hover { color: var(--red); }
+    </style>
+
+    <div id="page-admin-users" class="page fade-in">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Manage users</div>
+          <div class="page-sub">Registered accounts</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="btn btn-success btn-sm" onclick="exportAllUsers()" title="Export all user data to JSON">
+            <i class="fas fa-download"></i> Export All
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="showImportModal()" title="Import user data from JSON">
+            <i class="fas fa-upload"></i> Import
+          </button>
+          <div class="search-bar">
+            &#128269; <input type="text" id="userSearchInput" placeholder="Search students, teachers, attendance..." style="background:none;border:none;outline:none;font-size:13px;color:var(--text);" oninput="searchUsersTable()">
+          </div>
+        </div>
+      </div>
+      <div class="grid" id="adminUsersGrid"></div>
+    </div>
+
+    <!-- IMPORT MODAL -->
+    <div class="overlay" id="importModal" onclick="if(event.target===this)closeImportModal()">
+      <div class="modal" style="max-width:500px;">
+        <div class="modal-header">
+          <div>
+            <div class="modal-name">Import User Data</div>
+            <div class="modal-meta">Restore users from JSON backup</div>
+          </div>
+          <button class="modal-close" onclick="closeImportModal()">&#x2715;</button>
+        </div>
+        <div style="padding:20px 24px;">
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:13px;font-weight:500;margin-bottom:8px;">Select JSON File</label>
+            <input type="file" id="importFileInput" accept=".json" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;">
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:13px;font-weight:500;margin-bottom:8px;">Import Mode</label>
+            <select id="importMode" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;">
+              <option value="update">Update existing users (recommended)</option>
+              <option value="replace">Skip existing users</option>
+            </select>
+            <small style="display:block;margin-top:4px;color:var(--text-mid);">
+              Update mode: Updates existing users and adds new ones<br>
+              Skip mode: Only adds new users, skips existing
+            </small>
+          </div>
+          <div style="background:var(--bg);padding:12px;border-radius:6px;margin-bottom:16px;">
+            <div style="font-size:12px;color:var(--text-mid);">
+              <strong>What gets imported:</strong><br>
+              • User info (name, username, role, etc.)<br>
+              • RFID UIDs<br>
+              • Grades data<br>
+              • Payment data<br>
+              • Profile photos
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="closeImportModal()">Cancel</button>
+          <button class="btn-save" onclick="importUsers()">Import</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVERLAY MODAL -->
+    <div class="overlay" id="userEditOverlay" onclick="if(event.target===this)closeUserEditModal()">
+      <div class="modal" id="modal">
+
+        <div class="modal-header">
+          <input type="file" id="u-pic-input" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none;" onchange="uploadProfilePic(event)">
+          <div class="modal-avatar" id="u-m-avatar" onclick="document.getElementById('u-pic-input').click()" style="cursor:pointer;position:relative;overflow:hidden;" title="Change profile photo">
+          </div>
+          <div>
+            <div class="modal-name" id="u-m-name"></div>
+            <div class="modal-meta" id="u-m-meta"></div>
+          </div>
+          <button class="modal-close" onclick="closeUserEditModal()">&#x2715;</button>
+        </div>
+
+        <!-- VIEW: PROFILE (no tabs) -->
+        <div id="u-view-profile" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+          <div class="profile-section">
+            <div class="section-label">Student info</div>
+            <div class="info-grid">
+              <div class="info-field"><label>Full name</label><input type="text" id="u-f-name" /></div>
+              <div class="info-field"><label>Role</label>
+                <select id="u-f-role">
+                  <option value="student">Student</option>
+                  <option value="teacher">Teacher</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div class="info-field"><label>Grade / section</label><input type="text" id="u-f-grade" /></div>
+              <div class="info-field"><label>Parent / guardian</label><input type="text" id="u-f-parent" /></div>
+              <div class="info-field"><label>Contact number</label><input type="text" id="u-f-contact" /></div>
+              <div class="info-field"><label>Email</label><input type="text" id="u-f-email" /></div>
+              <div class="info-field"><label>RFID UID</label><input type="text" id="u-f-rfid" placeholder="e.g. 0009269290" /></div>
+            </div>
+            <div class="profile-pic-tools">
+              <div class="section-label">Profile photo</div>
+              <p style="font-size:11px;color:var(--text-mid);margin:6px 0 0;">JPEG, PNG, GIF, or WebP · max 5MB · stored as <code style="font-size:10px;">Profile_pic/{id}.jpg</code></p>
+              <div class="profile-pic-upload-row">
+                <div id="u-profile-pic-dropzone" class="profile-pic-dropzone" tabindex="0" role="button" aria-label="Drop or click to upload profile photo">
+                  Drop an image here or click to choose · same as clicking the circle above
+                </div>
+                <button type="button" class="btn-link-remove" id="u-remove-pic-btn" onclick="removeUserProfilePic()">Remove photo</button>
+              </div>
+            </div>
+            <div class="open-tabs-hint">&#9432;&nbsp; Use the tabs below to view financials or edit grades.</div>
+          </div>
+          <div class="tab-bar" style="margin-top:auto;">
+            <button class="tab-btn" onclick="switchUserTabView('finance')">Financials</button>
+            <button class="tab-btn" onclick="switchUserTabView('grades')">Grades</button>
+          </div>
+        </div>
+
+        <!-- VIEW: TABBED (finance + grades) -->
+        <div id="u-view-tabs" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+          <div class="tab-bar">
+            <button class="tab-btn" id="tab-profile-btn" onclick="switchToProfile()">&#8592; Profile</button>
+            <button class="tab-btn active" id="tab-finance-btn" onclick="switchUserTab('finance')">Financials</button>
+            <button class="tab-btn" id="tab-grades-btn" onclick="switchUserTab('grades')">Grades</button>
+          </div>
+
+          <div id="tab-finance" class="tab-content">
+            <div class="section-label">Payment plan</div>
+            <div class="plan-tabs">
+              <button class="plan-tab active" onclick="switchUserPlan('monthly',this)">Monthly</button>
+              <button class="plan-tab" onclick="switchUserPlan('quarterly',this)">Quarterly</button>
+              <button class="plan-tab" onclick="switchUserPlan('annually',this)">Annually</button>
+            </div>
+            <div class="payment-grid" id="u-payment-grid"></div>
+          </div>
+
+          <div id="tab-grades" class="tab-content" style="display:none;">
+            <!-- STATUS CARDS: Final Grade, Promotion, Honor Roll -->
+            <div class="status-cards" id="status-cards"></div>
+
+            <!-- QUARTER SUMMARY STATS -->
+            <div class="grades-summary" id="grades-summary"></div>
+
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+              <div class="section-label" style="margin:0;">Quarter</div>
+              <span class="info-pill">WW 25% · PT 50% · QA 25%</span>
+              <button class="btn btn-sm" id="no-show-btn" style="margin-left:auto; background:var(--red-soft); color:var(--red); border:1px solid var(--red); padding:4px 8px; font-size:10px; font-weight:bold; border-radius:4px; cursor:pointer;" onclick="toggleNoShow()">NO SHOW</button>
+            </div>
+            <div class="quarter-tabs">
+              <button class="quarter-tab active" onclick="switchQuarter(1,this)">Q1</button>
+              <button class="quarter-tab" onclick="switchQuarter(2,this)">Q2</button>
+              <button class="quarter-tab" onclick="switchQuarter(3,this)">Q3</button>
+              <button class="quarter-tab" onclick="switchQuarter(4,this)">Q4</button>
+              <button class="quarter-tab" onclick="switchQuarter('final',this)">Final</button>
+            </div>
+
+            <!-- PER-QUARTER VIEW -->
+            <div id="view-quarter">
+              <table class="grades-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th style="text-align:center;">Written<br><span style="font-weight:400;opacity:.7;">25%</span></th>
+                    <th style="text-align:center;">Perf. Task<br><span style="font-weight:400;opacity:.7;">50%</span></th>
+                    <th style="text-align:center;">Q. Assess.<br><span style="font-weight:400;opacity:.7;">25%</span></th>
+                    <th style="text-align:center;">Quarterly<br>Grade</th>
+                    <th style="text-align:center;">Remarks</th>
+                  </tr>
+                </thead>
+                <tbody id="grades-body"></tbody>
+              </table>
+            </div>
+
+            <!-- FINAL GRADE VIEW -->
+            <div id="view-final" style="display:none;">
+              <table class="grades-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th style="text-align:center;">Q1</th>
+                    <th style="text-align:center;">Q2</th>
+                    <th style="text-align:center;">Q3</th>
+                    <th style="text-align:center;">Q4</th>
+                    <th style="text-align:center;">Final Grade</th>
+                    <th style="text-align:center;">Remarks</th>
+                  </tr>
+                </thead>
+                <tbody id="final-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-deact-modal" id="u-deact-btn" onclick="toggleUserModalActive()">Deactivate account</button>
+          <button class="btn-cancel" onclick="closeUserEditModal()">Cancel</button>
+          <button class="btn-save" onclick="saveUserEditModal()">Save changes</button>
+        </div>
+      </div>
+    </div>
+    <!-- ADMIN FINANCIALS -->
+    <div id="page-admin-financials" class="page fade-in">
+      <div class="page-header">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+          <div><h1> Manage Financials</h1><p>Set tuition payment plans and view balances for students</p></div>
+          <button class="btn btn-outline btn-sm" onclick="openPostAnnouncementModal()"> Post Announcement</button>
+        </div>
+      </div>
+      <!-- Global Fee Settings Card -->
+      <div class="card" style="margin-bottom:1.5rem;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-cog"></i> Global Fee Settings</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row" style="display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;">
+            <div class="form-group" style="flex:1;min-width:200px;">
+              <label for="globalTuitionInput">Tuition Fee (₱)</label>
+              <input type="number" id="globalTuitionInput" class="form-control" min="0" step="0.01" placeholder="0.00">
+            </div>
+            <div class="form-group" style="flex:1;min-width:200px;">
+              <label for="globalMiscInput">Miscellaneous Fee (₱)</label>
+              <input type="number" id="globalMiscInput" class="form-control" min="0" step="0.01" placeholder="0.00">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary" onclick="saveGlobalFees()">
+                <i class="fas fa-save"></i> Save &amp; Apply to All Students
+              </button>
+            </div>
+          </div>
+          <small class="text-muted">Saves to global settings and updates all student financial records.</small>
+        </div>
+      </div>
+      <div class="filter-bar" style="margin-bottom:1rem; gap:.75rem;">
+        <input type="text" id="finSearchInput" placeholder="Search students, balances, payments…" style="width:250px; font-size:.85rem; padding:.5rem 1rem;" oninput="renderFinancialsList()">
+        <select id="finGradeFilter" style="width:auto; font-size:.85rem; padding:.5rem 1rem;" onchange="renderFinancialsList()">
+          <option value="all">All Grades</option>
+          <option>Kinder</option><option>Preparatory</option>
+          <option>Grade 1</option><option>Grade 2</option><option>Grade 3</option>
+          <option>Grade 4</option><option>Grade 5</option><option>Grade 6</option>
+        </select>
+      </div>
+      <div id="financialsGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:1.25rem;">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- ADMIN ATTENDANCE -->
+    <div id="page-admin-attendance" class="page fade-in">
+      <div class="page-header"><h1> Attendance Records</h1><p>View and manage all attendance logs</p></div>
+      <div class="card">
+        <div class="card-head">
+          <h3>Attendance Log</h3>
+          <div class="filter-bar">
+            <div class="input-mask-wrapper" style="display:inline-block;">
+              <input type="date" id="attendanceFromDate" style="width:auto; font-size:.82rem;">
+              <span class="input-mask-hint">YYYY-MM-DD</span>
+            </div>
+            <span style="color:var(--text-light);">to</span>
+            <div class="input-mask-wrapper" style="display:inline-block;">
+              <input type="date" id="attendanceToDate" style="width:auto; font-size:.82rem;">
+              <span class="input-mask-hint">YYYY-MM-DD</span>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="filterAdminAttendance()"> Filter</button>
+            <button class="btn btn-gold btn-sm" onclick="exportAttendance()"> Export CSV</button>
+            <button class="btn btn-success btn-sm" onclick="openAddAttendanceModal()"> Add Record</button>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table>
+            <thead><tr><th>Date</th><th>Student ID</th><th>Name</th><th>Time In</th><th>Time Out</th><th>Status</th><th>Late (min)</th><th>Actions</th></tr></thead>
+            <tbody id="adminAttendanceBody"><tr><td colspan="8" class="loading">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN LEAVE REQUESTS -->
+    <div id="page-admin-leaves" class="page fade-in">
+      <div class="page-header"><h1> Leave Requests</h1><p>Review and manage student leave requests</p></div>
+      <div class="card">
+        <div class="card-head">
+          <h3>Leave Requests</h3>
+          <div class="filter-bar">
+            <select style="width:auto; font-size:.82rem;" onchange="filterLeavesByStatus(this.value)">
+              <option value="all">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table>
+            <thead><tr><th>Submitted</th><th>Student</th><th>Type</th><th>Start</th><th>End</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="adminLeavesBody"><tr><td colspan="8" class="loading">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN ENROLLMENTS -->
+    <div id="page-admin-enrollments" class="page fade-in">
+      <div class="page-header"><h1>📋 Pre-Enrollments</h1><p>Review and approve new student enrollments</p></div>
+      <div class="card">
+        <div class="card-head" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+          <h3>Enrollment Requests <span id="enrollmentPendingCount" style="color:var(--maroon);font-size:.85rem;font-weight:600;"></span></h3>
+          <button class="btn btn-outline btn-sm" onclick="loadEnrollments()" style="display:flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+            Refresh
+          </button>
+        </div>
+        <div class="card-body" style="padding:0;overflow-x:auto;">
+          <table style="min-width:700px;">
+            <thead>
+              <tr>
+                <th>Submitted</th>
+                <th>Student Name</th>
+                <th>Email / Username</th>
+                <th>Grade</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminEnrollmentsBody">
+              <tr><td colspan="6" class="loading">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN REPORTS -->
+    <div id="page-admin-reports" class="page fade-in">
+      <div class="page-header"><h1> Generate Reports</h1><p>Create and download system reports</p></div>
+      <div class="card" style="margin-bottom:1.5rem;">
+        <div class="card-head"><h3>Report Settings</h3></div>
+        <div class="card-body">
+          <div class="grid-3">
+            <div class="form-group"><label>From Date</label><input type="date" id="reportFromDate"></div>
+            <div class="form-group"><label>To Date</label><input type="date" id="reportToDate"></div>
+            <div class="form-group"><label>Grade Level</label>
+              <select id="reportGrade">
+                <option value="all">All Grades</option>
+                <option>Kinder</option><option>Preparatory</option><option>Grade 1</option>
+                <option>Grade 2</option><option>Grade 3</option><option>Grade 4</option>
+                <option>Grade 5</option><option>Grade 6</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Available Reports</h3></div>
+        <div class="card-body">
+          <div class="grid-3">
+            <div class="card" style="margin-bottom:0; text-align:center;"><div class="card-body">
+              <div style="font-size:2.5rem; margin-bottom:.5rem;"></div>
+              <h4 style="color:var(--maroon); margin-bottom:.5rem;">Attendance Report</h4>
+              <p style="font-size:.85rem; color:var(--text-light); margin-bottom:1rem;">Attendance summaries by date range</p>
+              <button class="btn btn-primary btn-sm" onclick="generateReport('attendance')">Generate &amp; Download</button>
+            </div></div>
+            <div class="card" style="margin-bottom:0; text-align:center;"><div class="card-body">
+              <div style="font-size:2.5rem; margin-bottom:.5rem;"></div>
+              <h4 style="color:var(--maroon); margin-bottom:.5rem;">User List</h4>
+              <p style="font-size:.85rem; color:var(--text-light); margin-bottom:1rem;">Complete list of all system users</p>
+              <button class="btn btn-primary btn-sm" onclick="generateReport('users')">Generate &amp; Download</button>
+            </div></div>
+            <div class="card" style="margin-bottom:0; text-align:center;"><div class="card-body">
+              <div style="font-size:2.5rem; margin-bottom:.5rem;"></div>
+              <h4 style="color:var(--maroon); margin-bottom:.5rem;">Leave Requests</h4>
+              <p style="font-size:.85rem; color:var(--text-light); margin-bottom:1rem;">All leave request records</p>
+              <button class="btn btn-primary btn-sm" onclick="generateReport('leaves')">Generate &amp; Download</button>
+            </div></div>
+          </div>
+          <div id="reportResult" style="display:none; margin-top:1.25rem;" class="alert-banner success"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN CALENDAR -->
+    <div id="page-admin-calendar" class="page fade-in">
+      <div class="page-header">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <h1><i class="fas fa-calendar-alt"></i> School Calendar</h1>
+            <p>Click any date to add, edit, or remove events. Changes are visible to all parents.</p>
+          </div>
+          <button class="btn btn-primary" onclick="CalendarManager.openEditor(null)">
+            <i class="fas fa-plus"></i> Add Event
+          </button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+          <button class="btn btn-outline" onclick="CalendarManager.prevMonth()">&#8592; Previous</button>
+          <span id="calMonthLabel" style="font-size:1.2rem;font-weight:600;"></span>
+          <button class="btn btn-outline" onclick="CalendarManager.nextMonth()">Next &#8594;</button>
+        </div>
+        <div class="card-body">
+          <div id="adminCalendarGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN RFID SYSTEM -->
+    <div id="page-admin-rfid" class="page fade-in">
+      <div class="page-header">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <h1><i class="fas fa-wifi"></i> RFID Attendance System</h1>
+            <p>Live monitoring, tap activity, and scanner management.</p>
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <button class="btn btn-outline" onclick="refreshRfidPage()"><i class="fas fa-sync-alt"></i> Refresh</button>
+            <button class="btn btn-gold" onclick="openRfidTerminalGuide()"><i class="fas fa-terminal"></i> RFID Java Terminal</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Status + Stats Row -->
+      <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:1.5rem;">
+        <div class="s-card" id="rfidSystemStatus">
+          <div class="s-card-icon" id="rfidStatusDot" style="background:#6c757d;border-radius:50%;width:14px;height:14px;display:inline-block;margin-right:8px;"></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="rfidStatusText">Checking...</div>
+            <div class="s-card-label">System Status</div>
+            <div id="rfidStatusDetail" style="font-size:10px;color:var(--text-mid);margin-top:2px;"></div>
+          </div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-icon ic-green"><i class="fas fa-hand-paper"></i></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="rfidTotalTaps">0</div>
+            <div class="s-card-label">Total Taps Today</div>
+          </div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-icon ic-maroon"><i class="fas fa-check-circle"></i></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="rfidPresentCount">0</div>
+            <div class="s-card-label">Present</div>
+          </div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-icon ic-red"><i class="fas fa-clock"></i></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="rfidLateCount">0</div>
+            <div class="s-card-label">Late</div>
+          </div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-icon ic-gold"><i class="fas fa-history"></i></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="rfidLastTap" style="font-size:0.9rem;">—</div>
+            <div class="s-card-label">Last Tap</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;flex-wrap:wrap;">
+        <!-- Activity Feed -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-list-alt"></i> Live Activity Feed</h3>
+            <small class="text-muted">Today's taps (auto-refreshes every 30s)</small>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Student</th>
+                    <th>Action</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="rfidActivityBody">
+                  <tr><td colspan="4" style="text-align:center;padding:2rem;color:#888;">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- IP Whitelist -->
+        <div class="card">
+          <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <h3 class="card-title"><i class="fas fa-shield-alt"></i> Scanner Whitelist</h3>
+            <span class="badge badge-primary" id="rfidWhitelistCount">0 IPs</span>
+          </div>
+          <div class="card-body">
+            <!-- Terminal IP hint — populated by checkRfidSystemStatus() -->
+            <div id="rfidTerminalIp" style="display:none;background:var(--bg,#f8f9fa);border:1px solid var(--border,#e5e7eb);border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:12px;font-family:monospace;color:var(--text-mid);">
+              <strong>💡 Copy this IP into the whitelist below:</strong> <span></span>
+            </div>
+            <!-- Add IP Form -->
+            <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;">
+              <input type="text" id="newRfidIp" class="form-control" placeholder="IP Address (e.g. 192.168.1.100)" style="flex:2;min-width:150px;">
+              <input type="text" id="newRfidLabel" class="form-control" placeholder="Label (optional)" style="flex:1;min-width:100px;">
+              <button class="btn btn-primary" onclick="addRfidIp()"><i class="fas fa-plus"></i> Add</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr><th>IP Address</th><th>Label</th><th>Action</th></tr>
+                </thead>
+                <tbody id="rfidWhitelistBody">
+                  <tr><td colspan="3" style="text-align:center;padding:1rem;color:#888;">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════════
+         SYSTEM CONSOLE PAGE (Admin Log Console)
+         ════════════════════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-admin-console">
+      <div class="page-header">
+        <h2>System Console</h2>
+        <div class="header-actions">
+          <button class="btn btn-outline" onclick="refreshConsole()">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+          <button class="btn btn-gold" onclick="toggleAutoRefresh()" id="consoleAutoRefreshBtn">
+            <i class="fas fa-play"></i> Auto Refresh
+          </button>
+          <button class="btn btn-danger" onclick="clearConsole()">
+            <i class="fas fa-trash"></i> Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- System Stats Cards -->
+      <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:1rem;">
+        <div class="s-card">
+          <div class="s-card-icon ic-green"><i class="fas fa-users"></i></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="consoleActiveUsers">0</div>
+            <div class="s-card-label">Active Users</div>
+          </div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-icon ic-maroon"><i class="fas fa-id-card"></i></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="consoleRfidStatus">OFF</div>
+            <div class="s-card-label">RFID Status</div>
+          </div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-icon ic-gold"><i class="fas fa-clock"></i></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="consoleLastSync">—</div>
+            <div class="s-card-label">Last Sync</div>
+          </div>
+        </div>
+        <div class="s-card">
+          <div class="s-card-icon ic-red"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="s-card-info">
+            <div class="s-card-num" id="consoleErrorCount">0</div>
+            <div class="s-card-label">Errors (24h)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Command Input -->
+      <div class="card" style="margin-bottom:1rem;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-terminal"></i> Command Console</h3>
+          <small class="text-muted">Type commands to manage system</small>
+        </div>
+        <div class="card-body">
+          <div class="console-command-box">
+            <span class="console-prompt">admin@snlc:~$</span>
+            <input type="text" id="consoleCommandInput" class="console-input" placeholder="Type /help for commands..." autocomplete="off">
+            <button class="btn btn-primary" onclick="executeConsoleCommand()">
+              <i class="fas fa-arrow-right"></i> Execute
+            </button>
+          </div>
+          <div class="console-command-help" id="consoleCommandHelp" style="display:none;">
+            <strong>Available Commands:</strong>
+            <div class="command-list">
+              <span class="cmd">/ping rfid</span> - Check RFID terminal status<br>
+              <span class="cmd">/ping user &lt;id&gt;</span> - Check user session status<br>
+              <span class="cmd">/logout &lt;user_id&gt;</span> - Force logout a user<br>
+              <span class="cmd">/sessions</span> - List all active sessions<br>
+              <span class="cmd">/errors</span> - Show recent PHP errors<br>
+              <span class="cmd">/queue</span> - Show RFID offline queue<br>
+              <span class="cmd">/sql &lt;query&gt;</span> - Execute SQL query (admin only)<br>
+              <span class="cmd">/clearcache</span> - Clear all caches (force all users to refresh)<br>
+              <span class="cmd">/clear</span> - Clear console log<br>
+              <span class="cmd">/help</span> - Show this help
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Console Log Output -->
+      <div class="card" style="flex:1;display:flex;flex-direction:column;min-height:400px;">
+        <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+          <h3 class="card-title"><i class="fas fa-stream"></i> System Log</h3>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <label style="font-size:12px;color:var(--text-light);">
+              <input type="checkbox" id="consoleFilterInfo" checked onchange="filterConsoleLog()"> Info
+            </label>
+            <label style="font-size:12px;color:var(--text-light);">
+              <input type="checkbox" id="consoleFilterWarning" checked onchange="filterConsoleLog()"> Warnings
+            </label>
+            <label style="font-size:12px;color:var(--text-light);">
+              <input type="checkbox" id="consoleFilterError" checked onchange="filterConsoleLog()"> Errors
+            </label>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;flex:1;overflow:hidden;">
+          <div id="consoleLogOutput" class="console-log-output">
+            <div class="console-line console-info">
+              <span class="console-time">--:--:--</span>
+              <span class="console-type">[INFO]</span>
+              System Console initialized. Type /help for available commands.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Sessions Table -->
+      <div class="card" style="margin-top:1rem;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-user-friends"></i> Active Sessions</h3>
+          <button class="btn btn-sm btn-outline" onclick="refreshSessions()">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>IP Address</th>
+                  <th>Last Activity</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="consoleSessionsBody">
+                <tr><td colspan="5" class="empty-state">Loading sessions...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer style="text-align: center; padding: 20px; font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--border-light); background: var(--bg);">
+       2026 St. Nazareth Learning Center. All rights reserved. | School Management System
+    </footer>
+  </div>
+</div>
+
+
+<div id="toastContainer"></div>
+
+<!-- UPDATE FINANCIAL PLAN MODAL -->
+<div class="modal-overlay" id="finPlanModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><h3> Update Payment Plan</h3><button class="modal-close" onclick="closeModal('finPlanModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="finUserId">
+      <div class="profile-row"><span class="key">Student</span><span class="val" id="finStudentName" style="font-weight:600;">—</span></div>
+      <div class="profile-row" style="margin-bottom:1rem;"><span class="key">Grade/Sec</span><span class="val" id="finGradeSec">—</span></div>
+      
+      <div class="form-group"><label>Payment Plan Options</label>
+        <select id="finPlanSelect">
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
+          <option value="Annually">Annually</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:1rem;"><label>Total Amount Paid (₱)</label>
+        <input type="number" id="finAmountPaid" step="0.01" min="0" placeholder="0.00" />
+      </div>
+      <div id="paymentPlanInfo" style="font-size:.85rem; color:var(--text-light); background:var(--bg); padding:.75rem; border-radius:6px; margin-top:1rem;">
+        <strong>Total Tuition:</strong> <span id="modalTotalTuition">₱13,000.00</span><br>
+        <strong>School Year Start:</strong> June 8, 2026<br><br>
+        <em>Monthly: 10 payments<br>Quarterly: 4 payments<br>Annually: 1 full payment</em>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('finPlanModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveFinancialPlan()"> Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- POST ANNOUNCEMENT MODAL -->
+<div class="modal-overlay" id="announcementModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header"><h3> Post Announcement</h3><button class="modal-close" onclick="closeModal('announcementModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Title</label><input type="text" id="annTitle" placeholder="e.g. Q2 Tuition Fee Deadline"></div>
+      <div class="form-group"><label>Type</label>
+        <select id="annType">
+          <option value="info">Info / General Notice</option>
+          <option value="warning">Important / Alert</option>
+          <option value="success">Good News / Event</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label>
+        <textarea id="annContent" placeholder="Announcement details..." style="min-height:100px;"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('announcementModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitAnnouncement()"> Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENROLLMENT SUCCESS MODAL -->
+<div class="modal-overlay" id="enrollSuccessModal">
+  <div class="modal" style="max-width:440px; text-align:center;">
+    <div class="modal-body" style="padding: 40px 30px;">
+      <div style="font-size:48px; margin-bottom:16px;"></div>
+      <h2 style="color:var(--maroon-deep); margin-bottom:12px; font-weight:800; letter-spacing:1px;">THANK YOU</h2>
+      <p style="color:var(--text-mid); font-size:14px; margin-bottom:24px; line-height:1.6; text-align:left; background:#FBF4F5; padding:15px; border-radius:8px; border:1px dashed var(--maroon);">
+        Your pre-enrollment has been submitted.<br><br>
+        <strong>Now you may proceed to the School and Please Prepare:</strong><br>
+        • Report card / Form 138<br>
+        • Birth certificate<br>
+        • ID picture<br>
+        • Certificate of transfer (if applicable)<br><br>
+        <em>To St. Nazareth Learning Center</em>
+      </p>
+      <button class="btn btn-primary" onclick="closeEnrollSuccess()" style="width:100%; padding:12px; justify-content:center;">Return to Login Portal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT USER MODAL -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal">
+    <div class="modal-header"><h3 id="userModalTitle"> Add New User</h3><button class="modal-close" onclick="closeModal('userModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editUserId">
+      <div class="grid-2">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="newUserName" placeholder="Juan dela Cruz"></div>
+        <div class="form-group"><label>Username *</label><input type="text" id="newUserUsername" placeholder="jdelacruz"></div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label>Password</label><input type="password" id="newUserPassword" placeholder="Leave blank to keep current"></div>
+        <div class="form-group"><label>Role *</label>
+          <select id="newUserRole" onchange="toggleUserFields()">
+            <option value="student">Student</option><option value="teacher">Teacher</option><option value="admin">Admin</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" id="newUserEmail" placeholder="email@example.com"></div>
+      <div class="form-group">
+        <label>RFID UID</label>
+        <input type="text" id="userRfidUid" name="rfid_uid" placeholder="e.g. 0009269290">
+        <small>Scan the card with the reader, or type the UID manually</small>
+      </div>
+      <div id="studentFields">
+        <div class="grid-2">
+          <div class="form-group"><label>Grade</label>
+            <select id="newUserGrade"><option value="">Select grade…</option>
+              <option>Kinder</option><option>Preparatory</option><option>Grade 1</option>
+              <option>Grade 2</option><option>Grade 3</option><option>Grade 4</option>
+              <option>Grade 5</option><option>Grade 6</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Section</label><input type="text" id="newUserSection" placeholder="e.g. Rizal"></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group"><label>Class Type</label>
+            <select id="newUserClass"><option value="">Select type…</option>
+              <option>Regular</option><option>Science</option>
+              <option>Morning</option><option>Afternoon</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group"><label>Tuition Fee (₱)</label><input type="number" id="newUserTuition" placeholder="0.00" min="0"></div>
+          <div class="form-group"><label>Amount Paid (₱)</label><input type="number" id="newUserPaid" placeholder="0.00" min="0"></div>
+        </div>
+      </div>
+      <div class="form-group"><label>Status</label>
+        <select id="newUserStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+      </div>
+      <div class="form-group" id="teacherPermissionsGroup" style="display:none; margin-top:1rem; padding:1rem; background:var(--bg); border-radius:8px; border:1px solid var(--border);">
+        <label style="font-weight:600; margin-bottom:8px;">Teacher Permissions</label>
+        <p style="font-size:11px; color:var(--text-mid); margin-top:0; margin-bottom:12px;">Select which features this teacher can access.</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <label style="display:flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" name="teacher_perm" value="attendance"> Manage Attendance</label>
+          <label style="display:flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" name="teacher_perm" value="grades"> Manage Grades</label>
+          <label style="display:flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" name="teacher_perm" value="users"> Manage Users</label>
+          <label style="display:flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" name="teacher_perm" value="financials"> Financials</label>
+          <label style="display:flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" name="teacher_perm" value="enrollments"> Enrollments</label>
+          <label style="display:flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" name="teacher_perm" value="announcements"> Announcements/Calendar</label>
+          <label style="display:flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" name="teacher_perm" value="leaves"> Leave Requests</label>
+          <label style="display:flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" name="teacher_perm" value="rfid"> RFID Settings</label>
+        </div>
+      </div>
+      <div class="form-group" id="newUserPhotoGroup">
+        <label>Profile photo (optional)</label>
+        <div class="new-user-photo-row">
+          <input type="file" id="newUserProfilePic" accept="image/jpeg,image/png,image/gif,image/webp" onchange="onNewUserProfilePicSelected(event)">
+          <button type="button" class="btn-link-remove" id="new-user-clear-pic-btn" onclick="clearNewUserProfilePicSelection()" style="display:none;">Clear photo</button>
+        </div>
+        <small>Uploaded after the account is created as <code>Profile_pic/{user id}.jpg</code></small>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('userModal')">Cancel</button>
+      <button class="btn btn-success" onclick="saveUser()"> Save User</button>
+    </div>
+  </div>
+</div>
+
+<!-- ATTENDANCE MODAL -->
+<div class="modal-overlay" id="attendanceModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header"><h3 id="attendanceModalTitle"> Add Attendance Record</h3><button class="modal-close" onclick="closeModal('attendanceModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editAttendanceId">
+      <div class="form-group"><label>Student</label><select id="attStudentSelect"><option value="">Select student…</option></select></div>
+      <div class="form-group"><label>Date</label><input type="date" id="attDate"></div>
+      <div class="grid-2">
+        <div class="form-group"><label>Time In</label><input type="time" id="attTimeIn"></div>
+        <div class="form-group"><label>Time Out</label><input type="time" id="attTimeOut"></div>
+      </div>
+      <div class="form-group"><label>Status</label>
+        <select id="attStatus"><option value="Present">Present</option><option value="Late">Late</option><option value="Absent">Absent</option></select>
+      </div>
+      <div class="form-group"><label>Late (minutes)</label><input type="number" id="attLateMin" placeholder="0" min="0"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('attendanceModal')">Cancel</button>
+      <button class="btn btn-success" onclick="saveAttendance()"> Save Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW USER DETAIL MODAL -->
+<div class="modal-overlay" id="userDetailModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header"><h3> User Details</h3><button class="modal-close" onclick="closeModal('userDetailModal')">✕</button></div>
+    <div class="modal-body" id="userDetailBody"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('userDetailModal')">Close</button></div>
+  </div>
+</div>
+
+<!-- UPDATE CONTACT MODAL -->
+<div class="modal-overlay" id="updateContactModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header"><h3> Update Contact Info</h3><button class="modal-close" onclick="closeModal('updateContactModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Parent / Guardian Email</label><input type="email" id="updateEmail" placeholder="email@example.com"></div>
+      <div class="form-group"><label>Contact Number</label><input type="text" id="updatePhone" placeholder="+63 9XX XXX XXXX"></div>
+      <div class="form-group"><label>Home Address</label><textarea id="updateAddress" placeholder="Full address" style="min-height:80px;"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('updateContactModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveContactInfo()"> Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><h3 id="confirmTitle"> Confirm Action</h3><button class="modal-close" onclick="closeModal('confirmModal')">✕</button></div>
+    <div class="modal-body"><p id="confirmMessage" style="color:var(--text-mid); font-size:.95rem;"></p></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-danger" id="confirmBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="forgotModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><h3> Forgot Password</h3><button class="modal-close" onclick="closeModal('forgotModal')">✕</button></div>
+    <div class="modal-body">
+      <p style="color:var(--text-mid); font-size:.9rem; margin-bottom:1rem;">Enter your username to request a password reset from the administrator.</p>
+      <div class="form-group"><label>Username</label><input type="text" id="forgotUsername" placeholder="Your username"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('forgotModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitForgotPassword()"> Request Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENROLLMENT DETAILS MODAL (Bug #4 Fix) -->
+<div class="modal-overlay" id="enrollmentDetailsModal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <h3>📋 Enrollment Details</h3>
+      <button class="modal-close" onclick="closeModal('enrollmentDetailsModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="enrollmentDetailsContent">
+        <!-- Content populated by JavaScript -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeModal('enrollmentDetailsModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<nav id="mobileBottomNav" class="mobile-bottom-nav" aria-label="Mobile Navigation"></nav>
+
+<div id="connectionStatus" class="connection-status"></div>
+
+<!-- RFID JAVA TERMINAL GUIDE MODAL -->
+<div class="modal-overlay" id="rfidGuideModal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <h3> RFID Java Attendance Terminal</h3>
+      <button class="modal-close" onclick="closeModal('rfidGuideModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-top:0; color:var(--text-mid);">
+        The RFID attendance terminal runs as a separate Java desktop app on the scanner PC.
+      </p>
+      <div style="background:var(--bg); border:0.5px solid var(--border); border-radius:8px; padding:12px;">
+        <div style="font-weight:600; margin-bottom:8px;">Terminal Setup (scanner computer)</div>
+        <ol style="margin:0; padding-left:18px; color:var(--text-mid);">
+          <li>Open the <code>rfid-attendance-system</code> folder.</li>
+          <li><strong>Windows:</strong> Double-click <code>run.bat</code> to start the terminal.</li>
+          <li><strong>Manual:</strong> Run <code>mvn javafx:run</code> from the command line.</li>
+          <li>Tap RFID card to record attendance — data syncs to this website API.</li>
+        </ol>
+      </div>
+      <p style="margin:12px 0 0; font-size:12px; color:var(--text-light);">
+        API endpoint used by terminal: <code>https://OnlineSnlc.bond/api/index.php?action=rfid_tap</code>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('rfidGuideModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR EVENT EDITOR MODAL -->
+<div id="calEventModal" class="modal-overlay">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <h3 id="calModalTitle">Add Event</h3>
+      <button class="modal-close" onclick="closeModal('calEventModal')">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="calEventId">
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="calEventDate" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Event Title</label>
+        <input type="text" id="calEventTitle" class="form-control" maxlength="200" placeholder="e.g. Christmas Holiday">
+      </div>
+      <div class="form-group">
+        <label>Event Type</label>
+        <select id="calEventType" class="form-control">
+          <option value="Holiday">Holiday</option>
+          <option value="Academic">Academic</option>
+          <option value="School Event">School Event</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer" style="display:flex;gap:0.5rem;justify-content:flex-end;">
+      <button class="btn btn-danger" id="calDeleteBtn" onclick="CalendarManager.deleteEvent(document.getElementById('calEventId').value)" style="display:none;">Delete</button>
+      <button class="btn btn-outline" onclick="closeModal('calEventModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="CalendarManager.saveEvent()">Save Event</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/core/data.js?v=12.8"></script>
+<script src="js/core/api.js?v=12.7"></script>
+<script src="js/core/ui.js?v=12.7"></script>
+<script src="js/mobile/mobile-nav.js?v=1.0"></script>
+<script src="js/pages/admin.js?v=12.7"></script>
+<script src="js/pages/enroll.js?v=12.7"></script>
+<script src="js/features/attendance.js?v=12.7"></script>
+<script src="js/features/grades.js?v=12.7"></script>
+<script src="js/features/financial.js?v=12.7"></script>
+<script src="js/features/announcements.js?v=12.7"></script>
+<script src="js/features/leaves.js?v=12.7"></script>
+<script src="js/features/users.js?v=12.7"></script>
+<script src="js/features/user-export-import.js?v=1.0"></script>
+<script src="js/features/rfid.js?v=12.7"></script>
+<script src="js/features/calendar.js?v=1.0"></script>
+<script src="js/features/logconsole.js?v=1.1"></script>
+<script>
+function openRfidTerminalGuide() {
+  if (typeof openModal === 'function') {
+    openModal('rfidGuideModal');
+  } else {
+    const el = document.getElementById('rfidGuideModal');
+    if (el) el.classList.add('open');
+  }
+}
+
+// Close admin pill menu when clicking outside
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('adminPillMenu');
+  if (!menu) return;
+  const pill = menu.closest('.user-pill');
+  if (pill && !pill.contains(e.target)) {
+    menu.style.display = 'none';
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ─── ADMIN DASHBOARD PAGE OBSERVER ───
+    let dashboardFirstLoad = false;
+    const dashboardPage = document.getElementById('page-admin-dashboard');
+    if (dashboardPage) {
+        const dashboardObserver = new MutationObserver(() => {
+            if (dashboardPage.classList.contains('active')) {
+                if (!dashboardFirstLoad) {
+                    dashboardFirstLoad = true;
+                    if (typeof loadAdminData === 'function') loadAdminData();
+                }
+            }
+        });
+        dashboardObserver.observe(dashboardPage, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    // ─── CALENDAR PAGE OBSERVER ───
+    let calendarInitialized = false;
+    const calPage = document.getElementById('page-admin-calendar');
+    if (calPage) {
+        const calObserver = new MutationObserver(() => {
+            if (calPage.classList.contains('active') && !calendarInitialized) {
+                calendarInitialized = true;
+                CalendarManager.init('adminCalendarGrid', 'calEventModal');
+            }
+        });
+        calObserver.observe(calPage, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    // ─── RFID PAGE OBSERVER ───
+    let rfidFirstLoad = false;
+    const rfidPage = document.getElementById('page-admin-rfid');
+    if (rfidPage) {
+        const rfidObserver = new MutationObserver(() => {
+            if (rfidPage.classList.contains('active')) {
+                if (!rfidFirstLoad) {
+                    rfidFirstLoad = true;
+                    if (typeof refreshRfidPage === 'function') refreshRfidPage();
+                }
+                if (typeof startRfidAutoRefresh === 'function') startRfidAutoRefresh();
+            } else {
+                if (typeof stopRfidAutoRefresh === 'function') stopRfidAutoRefresh();
+            }
+        });
+        rfidObserver.observe(rfidPage, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    // ─── SYSTEM CONSOLE PAGE OBSERVER ───
+    let consoleFirstLoad = false;
+    const consolePage = document.getElementById('page-admin-console');
+    if (consolePage) {
+        const consoleObserver = new MutationObserver(() => {
+            if (consolePage.classList.contains('active')) {
+                if (!consoleFirstLoad) {
+                    consoleFirstLoad = true;
+                    if (typeof loadSystemConsole === 'function') loadSystemConsole();
+                }
+                if (typeof startConsoleAutoRefresh === 'function') startConsoleAutoRefresh();
+            } else {
+                if (typeof stopConsoleAutoRefresh === 'function') stopConsoleAutoRefresh();
+            }
+        });
+        consoleObserver.observe(consolePage, { attributes: true, attributeFilter: ['class'] });
+    }
+    
+    // ─── CONSOLE COMMAND INPUT ENTER KEY ───
+    const cmdInput = document.getElementById('consoleCommandInput');
+    if (cmdInput) {
+        cmdInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                executeConsoleCommand();
+            }
+        });
+    }
+
+    // ─── NAV PATCH: ensure admin-calendar entry always exists ───
+    if (typeof adminNav !== 'undefined') {
+        const hasCalendar = adminNav.some(n => n.id === 'admin-calendar');
+        if (!hasCalendar) {
+            adminNav.push({
+                id: 'admin-calendar',
+                label: 'School Calendar',
+                icon: '<svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>'
+            });
+        }
+        if (typeof PAGE_TITLES !== 'undefined' && !PAGE_TITLES['admin-calendar']) {
+            PAGE_TITLES['admin-calendar'] = 'School Calendar';
+        }
+        // Rebuild nav if already rendered (session restored from cache)
+        const navLinks = document.getElementById('navLinks');
+        if (navLinks && navLinks.children.length > 0) {
+            const currentPage = localStorage.getItem('currentPage') || 'admin-dashboard';
+            navLinks.innerHTML = '';
+            adminNav.forEach(l => {
+                const btn = document.createElement('button');
+                btn.className = 's-item';
+                btn.dataset.pageId = l.id;
+                if (l.id === currentPage) btn.classList.add('active');
+                btn.innerHTML = l.icon + '<span>' + l.label + '</span>';
+                btn.onclick = () => { showPage(l.id); setActiveNav(btn); };
+                navLinks.appendChild(btn);
+            });
+        }
+    }
+    
+    // Handle case where dashboard is already active on page load (session restoration)
+    if (dashboardPage && dashboardPage.classList.contains('active') && !dashboardFirstLoad) {
+        dashboardFirstLoad = true;
+        setTimeout(() => {
+            if (typeof loadAdminData === 'function') loadAdminData();
+        }, 200);
+    }
+});
+</script>
+</body>
+</html>

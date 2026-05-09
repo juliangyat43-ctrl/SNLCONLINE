@@ -1,0 +1,446 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   MOBILE-OPTIMIZED DESIGN - Conservative Mobile Fixes
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── MOBILE FIXES ── */
+@media (max-width: 768px) {
+  
+  /* ── BASIC MOBILE RESET ── */
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-size: 14px;
+    width: 100%;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* ── SIDEBAR ── */
+  /* Replaced by bottom nav on mobile to avoid the sidebar getting "stuck" open */
+  .sidebar,
+  .mobile-overlay,
+  #sidebarToggle {
+    display: none !important;
+  }
+
+  /* ── MOBILE BOTTOM NAV (horizontal, scrollable) ── */
+  .mobile-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(66px + env(safe-area-inset-bottom));
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px 10px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -10px 24px rgba(0,0,0,0.06);
+    z-index: 1200;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-bottom-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-bottom-nav .mnav-item {
+    flex: 0 0 auto;
+    min-width: 92px;
+    max-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text-mid);
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .mobile-bottom-nav .mnav-item svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    opacity: 0.95;
+    flex-shrink: 0;
+  }
+
+  .mobile-bottom-nav .mnav-label {
+    max-width: 86px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-bottom-nav .mnav-item.active {
+    background: var(--maroon-soft);
+    border-color: rgba(107,30,48,0.35);
+    color: var(--maroon);
+  }
+  
+  /* ── MAIN CONTENT AREA ── */
+  .main {
+    margin-left: 0 !important;
+    width: 100%;
+    padding: 12px;
+    padding-bottom: calc(92px + env(safe-area-inset-bottom)); /* space for bottom nav */
+  }
+  
+  /* ── TOPBAR ── */
+  .topbar {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 56px;
+  }
+  
+  .topbar-title {
+    font-size: 16px;
+  }
+  
+  .topbar-sub {
+    font-size: 11px;
+    display: none;
+  }
+  
+  #sidebarToggle {
+    display: none !important;
+  }
+  
+  /* ── CONTENT AREA ── */
+  .content {
+    padding: 12px;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* ── CARDS ── */
+  .card {
+    margin-bottom: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .card-head {
+    padding: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .card-head h3 {
+    font-size: 14px;
+  }
+  
+  .card-body {
+    padding: 12px;
+    overflow-x: auto;
+  }
+  
+  /* ── STATS CARDS ── */
+  .stats {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px;
+  }
+  
+  .s-card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+  
+  .s-card-num {
+    font-size: 20px;
+  }
+  
+  .s-card-label {
+    font-size: 11px;
+  }
+  
+  .s-card-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .s-card-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* ── GRIDS ── */
+  .grid-2, .two-col {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  
+  .grid-3, .three-col {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  
+  .grid-4, .four-col {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px;
+  }
+  
+  /* ── BUTTONS ── */
+  .btn {
+    min-height: 44px;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+  
+  .btn-sm {
+    min-height: 36px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .quick-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .quick-actions .btn {
+    width: 100%;
+  }
+  
+  /* ── TABLES ── */
+  .card-body table {
+    font-size: 12px;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .card-body table thead {
+    display: block;
+  }
+  
+  .card-body table tbody {
+    display: block;
+  }
+  
+  .card-body table tr {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .card-body table td {
+    display: inline-block;
+    padding: 4px 8px;
+  }
+  
+  /* ── FORMS ── */
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .form-group label {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  
+  input, select, textarea {
+    font-size: 16px !important;
+    padding: 12px;
+    min-height: 44px;
+    width: 100%;
+  }
+  
+  /* ── MODALS ── */
+  .modal {
+    width: 95%;
+    max-width: 95%;
+    margin: 0 auto;
+    border-radius: 12px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modal-header {
+    padding: 16px;
+  }
+  
+  .modal-body {
+    padding: 16px;
+  }
+  
+  .modal-footer {
+    padding: 16px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .modal-footer .btn {
+    width: 100%;
+  }
+  
+  /* ── SEARCH ── */
+  .search-bar {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 12px;
+  }
+  
+  .search-bar input {
+    width: 100%;
+  }
+  
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .filter-bar select,
+  .filter-bar input {
+    width: 100%;
+  }
+  
+  .filter-bar button {
+    width: 100%;
+  }
+  
+  /* ── USER CARDS ── */
+  .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px;
+  }
+  
+  .user-card {
+    min-height: 120px;
+  }
+  
+  /* ── PAGE HEADER ── */
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .page-header h1 {
+    font-size: 18px;
+  }
+  
+  .page-header p {
+    font-size: 12px;
+  }
+  
+  /* ── CHARTS ── */
+  .chart-container {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  
+  canvas {
+    max-height: 200px;
+  }
+  
+  /* ── TOAST NOTIFICATIONS ── */
+  #toastContainer {
+    position: fixed;
+    top: 80px;
+    left: 16px;
+    right: 16px;
+    z-index: 2000;
+  }
+  
+  .toast {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  /* ── MOBILE OVERLAY ── */
+  .mobile-overlay {
+    display: block !important;
+  }
+  
+  /* ── BADGES ── */
+  .badge {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  
+  /* ── ALERT BANNER ── */
+  .alert-banner {
+    padding: 12px;
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  
+  /* ── EMPTY STATES ── */
+  .empty-state, .loading {
+    padding: 24px 16px;
+    font-size: 13px;
+  }
+  
+  /* ── NAVIGATION ITEMS ── */
+  .s-item {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  .s-item svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ── SMALL MOBILE DEVICES ── */
+@media (max-width: 380px) {
+  .stats {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .btn {
+    font-size: 13px;
+  }
+  
+  .topbar-title {
+    font-size: 14px;
+  }
+  
+  .card-head h3 {
+    font-size: 13px;
+  }
+}
+
+/* ── LANDSCAPE MOBILE ── */
+@media (max-width: 768px) and (orientation: landscape) {
+  .topbar {
+    padding: 8px 12px;
+  }
+  
+  .topbar-title {
+    font-size: 14px;
+  }
+  
+  .content {
+    padding: 8px;
+  }
+  
+  .stats {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}

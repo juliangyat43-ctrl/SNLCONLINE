@@ -1,0 +1,317 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   UX/UI DESIGN IMPROVEMENTS - Part 6
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── CSS VARIABLES FOR UX/UI IMPROVEMENTS ── */
+:root {
+  /* Border radius hierarchy */
+  --r-outer:       16px; /* Outer containers */
+  --r-inner:       6px;  /* Inner elements */
+  
+  /* Spacing system */
+  --space-xs:      4px;
+  --space-sm:      8px;
+  --space-md:      16px;
+  --space-lg:      24px;
+  --space-xl:      32px;
+}
+
+/* ── SKELETON LOADING ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg) 25%, var(--border-light) 50%, var(--bg) 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--r-sm);
+}
+
+.skeleton-text {
+  height: 14px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.skeleton-card {
+  height: 100px;
+  border-radius: var(--r);
+}
+
+.skeleton-button {
+  height: 36px;
+  width: 120px;
+  border-radius: var(--r-sm);
+}
+
+/* ── ENHANCED INPUT FIELDS (Boxed instead of underline) ── */
+input[type="text"], 
+input[type="password"], 
+input[type="date"], 
+input[type="email"], 
+input[type="number"], 
+input[type="time"], 
+input[type="tel"],
+input[type="search"],
+select, 
+textarea {
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color .2s, box-shadow .2s, transform .1s;
+  outline: none;
+}
+
+input:focus, 
+select:focus, 
+textarea:focus {
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 4px var(--maroon-soft);
+  transform: translateY(-1px);
+}
+
+input[readonly] {
+  background: var(--bg);
+  color: var(--muted);
+  border-color: var(--border-light);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+/* ── INPUT MASKS ── */
+.input-mask-wrapper {
+  position: relative;
+}
+
+.input-mask-hint {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--muted);
+  pointer-events: none;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── SEARCH BAR SPECIFIC PLACEHOLDERS ── */
+input[type="search"]::placeholder {
+  color: var(--text-mid);
+  opacity: 0.6;
+}
+
+/* ── CONSISTENT GRID SPACING ── */
+.grid-2, .two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.grid-3, .three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.grid-4, .four-col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* Inside modals, use equal columns so form fields don't overflow */
+.modal .grid-2, .modal .two-col { 
+  grid-template-columns: 1fr 1fr; 
+  gap: var(--space-md);
+}
+
+.modal .grid-3, .modal .three-col { 
+  grid-template-columns: 1fr 1fr 1fr; 
+  gap: var(--space-md);
+}
+
+/* ── BORDER RADIUS HIERARCHY ── */
+/* Outer containers (cards, modals, etc.) */
+.card, .modal, .login-card {
+  border-radius: var(--r-outer);
+}
+
+/* Inner elements (images inside cards, buttons inside cards) */
+.card img, .card .inner-element {
+  border-radius: var(--r);
+}
+
+/* Small elements (badges, icons) */
+.badge, .s-card-icon, .stat-icon {
+  border-radius: var(--r-inner);
+}
+
+/* ── BUTTON HIERARCHY IN DIALOGS ── */
+.modal-footer {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 0 0 var(--r-outer) var(--r-outer);
+}
+
+.modal-footer .btn-primary {
+  background: var(--maroon);
+  color: var(--white);
+  border: 2px solid var(--maroon);
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: var(--r);
+  transition: all .2s;
+}
+
+.modal-footer .btn-primary:hover {
+  background: var(--maroon-mid);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(75, 16, 32, 0.2);
+}
+
+.modal-footer .btn-secondary {
+  background: var(--white);
+  color: var(--text-mid);
+  border: 2px solid var(--border);
+  padding: 10px 20px;
+  font-weight: 500;
+  border-radius: var(--r);
+  transition: all .2s;
+}
+
+.modal-footer .btn-secondary:hover {
+  background: var(--bg);
+  border-color: var(--text-mid);
+}
+
+/* Ensure only one primary button per dialog */
+.modal-footer .btn-primary:last-child {
+  order: -1; /* Move primary button to the right */
+}
+
+/* ── THUMB-FRIENDLY CTA POSITIONING ── */
+.thumb-friendly-cta {
+  position: fixed;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: calc(100% - var(--space-lg) * 2);
+  max-width: 400px;
+}
+
+@media (min-width: 768px) {
+  .thumb-friendly-cta {
+    position: static;
+    transform: none;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* ── "OTHER" OPTION FOR FORMS ── */
+.other-option-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.other-option-input {
+  flex: 1;
+  margin-left: var(--space-sm);
+}
+
+/* ── IMPROVED FORM GROUPS ── */
+.form-group {
+  margin-bottom: var(--space-md);
+}
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-mid);
+  margin-bottom: var(--space-sm);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.form-group .input-hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: var(--space-xs);
+  font-style: italic;
+}
+
+/* ── LOADING STATES ── */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r);
+  z-index: 10;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--border);
+  border-top-color: var(--maroon);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── ACCESSIBILITY IMPROVEMENTS ── */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+}
+
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: #000000;
+    --text: #000000;
+    --bg: #FFFFFF;
+  }
+  
+  input, select, textarea {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
