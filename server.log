@@ -1,0 +1,31 @@
+[Sat May  9 05:50:31 2026] PHP 8.3.6 Development Server (http://localhost:8000) started
+[Sat May  9 05:50:34 2026] [::1]:34724 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34724 [200]: GET /enroll.html
+[Sat May  9 05:50:34 2026] [::1]:34724 Closing
+[Sat May  9 05:50:34 2026] [::1]:34736 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34752 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34754 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34756 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34758 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34736 [200]: GET /style.css?v=5.1
+[Sat May  9 05:50:34 2026] [::1]:34736 Closing
+[Sat May  9 05:50:34 2026] [::1]:34752 [200]: GET /uxui-improvements.css?v=1.0
+[Sat May  9 05:50:34 2026] [::1]:34752 Closing
+[Sat May  9 05:50:34 2026] [::1]:34754 [200]: GET /mobile-optimized.css?v=1.0
+[Sat May  9 05:50:34 2026] [::1]:34756 [200]: GET /SNLCLogo.png
+[Sat May  9 05:50:34 2026] [::1]:34758 [200]: GET /js/core/data.js?v=12.8
+[Sat May  9 05:50:34 2026] [::1]:34772 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34754 Closing
+[Sat May  9 05:50:34 2026] [::1]:34758 Closing
+[Sat May  9 05:50:34 2026] [::1]:34778 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34756 Closing
+[Sat May  9 05:50:34 2026] [::1]:34792 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34772 [200]: GET /js/core/api.js?v=12.7
+[Sat May  9 05:50:34 2026] [::1]:34778 [200]: GET /js/core/ui.js?v=12.7
+[Sat May  9 05:50:34 2026] [::1]:34792 [200]: GET /js/pages/enroll.js?v=12.7
+[Sat May  9 05:50:34 2026] [::1]:34772 Closing
+[Sat May  9 05:50:34 2026] [::1]:34778 Closing
+[Sat May  9 05:50:34 2026] [::1]:34792 Closing
+[Sat May  9 05:50:34 2026] [::1]:34798 Accepted
+[Sat May  9 05:50:34 2026] [::1]:34798 [200]: GET /api/index.php?action=get_data_versions
+[Sat May  9 05:50:34 2026] [::1]:34798 Closing

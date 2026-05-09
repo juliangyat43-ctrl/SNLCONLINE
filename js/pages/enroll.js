@@ -261,12 +261,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // ── HTML escape utility ───────────────────────────────────────────────────────
 // escHtml() is defined in js/core/data.js (loaded before this file on admin.html).
 // This is a safe no-op redeclaration — same logic, no conflict.
-function escHtml(str) {
-    if (!str) return '';
-    const div = document.createElement('div');
-    div.textContent = String(str);
-    return div.innerHTML;
-}
 
 // ── Load & render enrollment list ─────────────────────────────────────────────
 async function loadEnrollments() {
