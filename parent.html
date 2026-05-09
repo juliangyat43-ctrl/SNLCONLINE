@@ -765,8 +765,8 @@
   <div class="modal" style="max-width:440px;">
     <div class="modal-header"><h3> Update Contact Info</h3><button class="modal-close" onclick="closeModal('updateContactModal')">✕</button></div>
     <div class="modal-body">
-      <div class="form-group"><label>Parent / Guardian Email</label><input type="email" id="updateEmail" placeholder="email@example.com"></div>
-      <div class="form-group"><label>Contact Number</label><input type="text" id="updatePhone" placeholder="+63 9XX XXX XXXX"></div>
+      <div class="form-group"><label>Parent / Guardian Email</label><input type="email" id="updateEmail" placeholder="email@example.com" autocomplete="email" inputmode="email"></div>
+      <div class="form-group"><label>Contact Number</label><input type="text" id="updatePhone" placeholder="+63 9XX XXX XXXX" autocomplete="tel" inputmode="tel"></div>
       <div class="form-group"><label>Home Address</label><textarea id="updateAddress" placeholder="Full address" style="min-height:80px;"></textarea></div>
     </div>
     <div class="modal-footer">

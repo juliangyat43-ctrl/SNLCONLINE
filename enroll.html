@@ -180,14 +180,14 @@
         <div class="enroll-row col2">
           <div class="enroll-field">
             <label for="enrollEmail">Parent / Guardian Email <span>*</span></label>
-            <input type="email" id="enrollEmail" placeholder="email@example.com" autocomplete="email" maxlength="100"/>
+            <input type="email" id="enrollEmail" inputmode="email" placeholder="email@example.com" autocomplete="email" maxlength="100"/>
           </div>
           <div class="enroll-field">
             <label for="enrollContact">Contact Number <span>*</span></label>
             <div class="input-mask-wrapper">
               <div class="enroll-input-group">
                 <span class="enroll-input-prefix">+63</span>
-                <input type="tel" id="enrollContact" placeholder="9XX XXX XXXX" maxlength="11" autocomplete="tel" oninput="formatPhoneNumber(this)"/>
+                <input type="tel" id="enrollContact" inputmode="tel" placeholder="9XX XXX XXXX" maxlength="11" autocomplete="tel" oninput="formatPhoneNumber(this)"/>
               </div>
               <span class="input-mask-hint">9XX XXX XXXX</span>
             </div>

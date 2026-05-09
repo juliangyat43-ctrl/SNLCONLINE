@@ -1,131 +1,75 @@
 "use strict";
 // ─────────────────────────────────────────────────────────────────────────────
-// Mobile Navigation Handler - Conservative mobile fixes
+// Modern Mobile Navigation Handler
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ── Mobile Detection ───────────────────────────────────────────────────────────
 function isMobile() {
     return window.innerWidth <= 768;
 }
 
-// ── Mobile Navigation Enhancement ─────────────────────────────────────────────
+/**
+ * Enhanced touch feedback and navigation behaviors
+ */
 function enhanceMobileNavigation() {
     if (!isMobile()) return;
     
-    // Add mobile-specific behavior to navigation items
     const navItems = document.querySelectorAll('.s-item, .mnav-item');
     navItems.forEach(item => {
-        // Add touch feedback
-        item.addEventListener('touchstart', function(e) {
-            this.style.transform = 'scale(0.98)';
-        });
+        item.addEventListener('touchstart', function() {
+            this.classList.add('touch-active');
+        }, { passive: true });
         
-        item.addEventListener('touchend', function(e) {
-            this.style.transform = 'scale(1)';
+        item.addEventListener('touchend', function() {
+            this.classList.remove('touch-active');
+        }, { passive: true });
+    });
+
+    // Handle scroll to top on page navigation
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                const target = mutation.target;
+                if (target.classList.contains('page') && target.classList.contains('active')) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
         });
     });
 
-
-    // If bottom nav exists, we don't force sidebar/hamburger behaviors on mobile.
-    const bottomNav = document.getElementById('mobileBottomNav');
-    if (bottomNav) return;
-
-    // Ensure sidebar works as slide-out menu on mobile
-    const sidebar = document.querySelector('.sidebar');
-    if (sidebar) {
-        sidebar.style.position = 'fixed';
-        sidebar.style.left = '0';
-        sidebar.style.top = '0';
-        sidebar.style.height = '100vh';
-        sidebar.style.zIndex = '1000';
-    }
-
-    // Ensure hamburger menu is visible on mobile
-    const toggle = document.getElementById('sidebarToggle');
-    if (toggle) {
-        toggle.style.display = 'flex';
-    }
-}
-
-// ── Mobile Touch Optimization ─────────────────────────────────────────────────
-function optimizeTouchTargets() {
-    if (!isMobile()) return;
-    
-    // Ensure all buttons have minimum touch target size
-    const buttons = document.querySelectorAll('.btn, .s-item, .mnav-item');
-    buttons.forEach(btn => {
-        const rect = btn.getBoundingClientRect();
-        if (rect.height < 44) {
-            btn.style.minHeight = '44px';
-            btn.style.display = 'flex';
-            btn.style.alignItems = 'center';
-            btn.style.justifyContent = 'center';
-        }
+    document.querySelectorAll('.page').forEach(page => {
+        observer.observe(page, { attributes: true });
     });
 }
 
-// ── Mobile Table Enhancement ─────────────────────────────────────────────────
-function enhanceMobileTables() {
-    if (!isMobile()) return;
-    
-    const tables = document.querySelectorAll('table');
-    tables.forEach(table => {
-        // Ensure tables are scrollable on mobile
-        table.style.display = 'block';
-        table.style.overflowX = 'auto';
-        table.style.whiteSpace = 'nowrap';
-    });
-}
-
-// ── Mobile Scroll Optimization ─────────────────────────────────────────────────
-function optimizeMobileScroll() {
-    if (!isMobile()) return;
-    
-    // Add smooth scrolling to main content
-    const mainContent = document.querySelector('.main');
-    if (mainContent) {
-        mainContent.style.scrollBehavior = 'smooth';
-        mainContent.style.webkitOverflowScrolling = 'touch';
-    }
-}
-
-// ── Mobile Viewport Height Fix ─────────────────────────────────────────────────
-function fixMobileViewportHeight() {
-    if (!isMobile()) return;
-    
-    // Fix mobile viewport height issue (especially on iOS)
-    const setVh = () => {
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-    };
-    
-    setVh();
-    window.addEventListener('resize', setVh);
-}
-
-// ── Initialize Mobile Enhancements ───────────────────────────────────────────────
+/**
+ * Mobile-specific UI tweaks
+ */
 function initMobileEnhancements() {
     if (isMobile()) {
         enhanceMobileNavigation();
-        optimizeTouchTargets();
-        enhanceMobileTables();
-        optimizeMobileScroll();
-        fixMobileViewportHeight();
         
-        console.log('Mobile enhancements initialized');
+        // Add specific CSS for touch feedback if not present
+        if (!document.getElementById('mobile-touch-style')) {
+            const style = document.createElement('style');
+            style.id = 'mobile-touch-style';
+            style.innerHTML = `
+                .touch-active { background-color: rgba(0,0,0,0.05) !important; transform: scale(0.96); transition: transform 0.1s; }
+                .mnav-item.touch-active { background-color: var(--maroon-soft) !important; }
+            `;
+            document.head.appendChild(style);
+        }
+
+        console.log('Modern mobile enhancements initialized');
     }
 }
 
-// ── Handle Resize Events ───────────────────────────────────────────────────────
-let resizeTimeout;
+// Re-initialize on significant resize
+let resizeTimer;
 window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        initMobileEnhancements();
-    }, 250);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(initMobileEnhancements, 250);
 });
 
-// ── Initialize on DOM Ready ───────────────────────────────────────────────────────
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMobileEnhancements);
 } else {
