@@ -3,6 +3,11 @@ require_once __DIR__ . '/../Response.php';
 require_once __DIR__ . '/HandlerHelpers.php';
 
 class RfidHandler {
+    private function getCurrentSchoolYear(): string {
+        $schoolYear = new SchoolYear($this->pdo);
+        return $schoolYear->getCurrentSchoolYear();
+    }
+
     use HandlerHelpers;
     private $pdo;
 
@@ -95,9 +100,9 @@ class RfidHandler {
                 $late = max(0, $mins - $cutoff);
 
                 $this->pdo->prepare("
-                    INSERT INTO attendance (user_id, date, time_in, status, late_minutes, created_at)
-                    VALUES (?, ?, ?, ?, ?, datetime('now','localtime'))
-                ")->execute([$userId, $today, $nowTime, $status, $late]);
+                    INSERT INTO attendance (user_id, date, time_in, status, late_minutes, created_at, school_year)
+                    VALUES (?, ?, ?, ?, ?, datetime('now','localtime'), ?)
+                ")->execute([$userId, $today, $nowTime, $status, $late, $this->getCurrentSchoolYear()]);
                 
                 $this->pdo->commit();
 

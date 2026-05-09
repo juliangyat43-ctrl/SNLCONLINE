@@ -6,7 +6,7 @@
  * to prevent the sessions table from growing indefinitely.
  * 
  * Usage: php api/cron/cleanup_sessions.php
- * Cron: 0 */6 * * * php /path/to/api/cron/cleanup_sessions.php (runs every 6 hours)
+ * Cron: 0 * /6 * * * php /path/to/api/cron/cleanup_sessions.php (runs every 6 hours)
  */
 
 require_once __DIR__ . '/../Database.php';
