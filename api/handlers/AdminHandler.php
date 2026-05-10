@@ -83,35 +83,21 @@ class AdminHandler {
             }
         }
 
-        // Add pagination to prevent large result sets
-        $page = max(1, intval($_GET['page'] ?? 1));
-        $perPage = max(10, min(100, intval($_GET['per_page'] ?? 50)));
-        $offset = ($page - 1) * $perPage;
+        $schoolYear = new SchoolYear($this->pdo);
+        $currentYear = $schoolYear->getCurrentSchoolYear();
 
-        // Get total count for pagination info
-        $countStmt = $this->pdo->query("SELECT COUNT(*) FROM users");
-        $totalCount = $countStmt->fetchColumn();
-
-        $stmt = $this->pdo->query("
+        $stmt = $this->pdo->prepare("
             SELECT " . implode(', ', array_merge($userColumns, $financialColumns)) . "
             FROM users u
-            LEFT JOIN financial_records f ON u.user_id = f.user_id
+            LEFT JOIN financial_records f ON u.user_id = f.user_id AND (f.school_year = ? OR f.school_year IS NULL)
             ORDER BY
                 CASE u.role WHEN 'admin' THEN 1 WHEN 'teacher' THEN 2 WHEN 'student' THEN 3 END,
                 u.full_name
-            LIMIT $perPage OFFSET $offset
         ");
+        $stmt->execute([$currentYear]);
         $users = $stmt->fetchAll();
 
-        Response::success('', [
-            'users' => $users,
-            'pagination' => [
-                'page' => $page,
-                'per_page' => $perPage,
-                'total' => $totalCount,
-                'total_pages' => ceil($totalCount / $perPage)
-            ]
-        ]);
+        Response::success('', $users);
     }
 
     public function addUser(): void {

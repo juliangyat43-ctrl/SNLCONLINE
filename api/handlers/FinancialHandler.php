@@ -45,9 +45,11 @@ class FinancialHandler {
         $this->pdo->beginTransaction();
         
         try {
+            $schoolYear = new SchoolYear($this->pdo);
+            $currentYear = $schoolYear->getCurrentSchoolYear();
             $this->pdo->prepare(
-                "UPDATE financial_records SET amount_paid = amount_paid + ? WHERE user_id = ?"
-            )->execute([$amount, $userId]);
+                "UPDATE financial_records SET amount_paid = amount_paid + ? WHERE user_id = ? AND school_year = ?"
+            )->execute([$amount, $userId, $currentYear]);
 
             $this->pdo->prepare("
                 INSERT INTO payment_logs (user_id, amount, payment_method, reference, created_at)
@@ -116,8 +118,10 @@ class FinancialHandler {
         $this->pdo->beginTransaction();
         
         try {
-            $check = $this->pdo->prepare("SELECT id FROM financial_records WHERE user_id = ?");
-            $check->execute([$userId]);
+            $schoolYear = new SchoolYear($this->pdo);
+            $currentYear = $schoolYear->getCurrentSchoolYear();
+            $check = $this->pdo->prepare("SELECT id FROM financial_records WHERE user_id = ? AND school_year = ?");
+            $check->execute([$userId, $currentYear]);
             $exists = $check->fetch();
 
             $hasPaymentPlan = $this->hasColumn('financial_records', 'payment_plan');
@@ -140,8 +144,8 @@ class FinancialHandler {
                         $sets[] = "last_payment_date = datetime('now', 'localtime')";
                     }
                     $params[] = $userId;
-                    $stmt = $this->pdo->prepare("UPDATE financial_records SET " . implode(', ', $sets) . " WHERE user_id = ?");
-                    $stmt->execute($params);
+                    $stmt = $this->pdo->prepare("UPDATE financial_records SET " . implode(', ', $sets) . " WHERE user_id = ? AND school_year = ?");
+                    $params[] = $currentYear; $stmt->execute($params);
                 } else {
                     $sets = [];
                     $params = [];
@@ -155,8 +159,8 @@ class FinancialHandler {
                     }
                     if (!empty($sets)) {
                         $params[] = $userId;
-                        $stmt = $this->pdo->prepare("UPDATE financial_records SET " . implode(', ', $sets) . " WHERE user_id = ?");
-                        $stmt->execute($params);
+                        $stmt = $this->pdo->prepare("UPDATE financial_records SET " . implode(', ', $sets) . " WHERE user_id = ? AND school_year = ?");
+                        $params[] = $currentYear; $stmt->execute($params);
                     }
                 }
             } else {

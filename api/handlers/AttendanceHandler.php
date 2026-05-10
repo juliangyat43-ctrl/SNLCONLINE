@@ -18,9 +18,14 @@ class AttendanceHandler {
         $fromDate = $_GET['from_date'] ?? null;
         $toDate   = $_GET['to_date']   ?? null;
 
+        $schoolYear = new SchoolYear($this->pdo);
+        $currentYear = $schoolYear->getCurrentSchoolYear();
+
         $sql    = "SELECT a.*, u.full_name, u.user_code FROM attendance a
-                   LEFT JOIN users u ON a.user_id = u.user_id WHERE 1=1";
-        $params = [];
+                   LEFT JOIN users u ON a.user_id = u.user_id
+                   WHERE (a.school_year = ? OR a.school_year IS NULL)";
+        $params = [$currentYear];
+
 
         if ($fromDate && $this->validateDate($fromDate)) {
             $sql     .= " AND a.date >= ?";

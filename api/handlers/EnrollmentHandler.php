@@ -105,7 +105,11 @@ class EnrollmentHandler {
     }
 
     public function getEnrollments(): void {
-        $stmt = $this->pdo->query("SELECT * FROM enrollments ORDER BY created_at DESC");
+        $schoolYear = new SchoolYear($this->pdo);
+        $currentYear = $schoolYear->getCurrentSchoolYear();
+
+        $stmt = $this->pdo->prepare("SELECT * FROM enrollments WHERE (school_year = ? OR school_year IS NULL) ORDER BY created_at DESC");
+        $stmt->execute([$currentYear]);
         Response::success('Enrollments fetched', $stmt->fetchAll());
     }
 

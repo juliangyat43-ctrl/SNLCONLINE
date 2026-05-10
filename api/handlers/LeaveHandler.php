@@ -66,12 +66,17 @@ class LeaveHandler {
     }
 
     public function getAllLeaves(): void {
-        $stmt = $this->pdo->query("
+        $schoolYear = new SchoolYear($this->pdo);
+        $currentYear = $schoolYear->getCurrentSchoolYear();
+
+        $stmt = $this->pdo->prepare("
             SELECT l.*, u.full_name as student_name
             FROM leave_requests l
             LEFT JOIN users u ON l.user_id = u.user_id
+            WHERE (l.school_year = ? OR l.school_year IS NULL)
             ORDER BY l.submitted_at DESC
         ");
+        $stmt->execute([$currentYear]);
         Response::success('', $stmt->fetchAll());
     }
 
